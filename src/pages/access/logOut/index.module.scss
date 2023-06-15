@@ -50,6 +50,7 @@
     font-weight: 700;
     margin-top: 40px;
     margin-right: 30px;
+    cursor: pointer;
   }
 
   .logout-btn {
@@ -60,5 +61,6 @@
     border: 1px solid red;
     color: $text-light-white;
     font-weight: 700;
+    cursor: pointer;
   }
 }

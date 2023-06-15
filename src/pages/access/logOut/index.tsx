@@ -2,6 +2,12 @@ import React from 'react'
 import styles from './index.module.scss'
 
 export default function LogOut() {
+  const handleLogout = () => {
+    // 토큰 제거
+    localStorage.removeItem('token')
+    console.log('로그아웃 성공')
+  }
+
   return (
     <div className={styles.container}>
       <h1 className={styles['subTitle']}>로그아웃</h1>
@@ -20,8 +26,12 @@ export default function LogOut() {
         </div>
 
         <div className={styles['btn-group']}>
-          <button className={styles['cancel-btn']}>취소</button>
-          <button className={styles['logout-btn']}>로그아웃</button>
+          <a href="/">
+            <button className={styles['cancel-btn']}>취소</button>
+          </a>
+          <button onClick={handleLogout} className={styles['logout-btn']}>
+            로그아웃
+          </button>
         </div>
       </div>
     </div>
