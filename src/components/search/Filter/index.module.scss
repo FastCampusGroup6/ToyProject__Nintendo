@@ -1,0 +1,12 @@
+.cover {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    padding-right: 1rem;
+  }
+  select {
+    min-width: 200px;
+    height: 35px;
+  }
+}
