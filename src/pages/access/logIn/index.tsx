@@ -7,7 +7,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState(false)
 
-  const dummySignUpRequest: SignInRequest = {
+  const dummySignInRequest: SignInRequest = {
     email: 'example@example.com',
     password: 'password123'
   }
@@ -19,8 +19,8 @@ export default function SignIn() {
       password
     })
 
-    if (email === dummySignUpRequest.email && password === dummySignUpRequest.password) {
-      console.log('로그인 성공:', dummySignUpRequest)
+    if (email === dummySignInRequest.email && password === dummySignInRequest.password) {
+      console.log('로그인 성공:', dummySignInRequest)
       localStorage.setItem('token', 'dummyAccessToken')
       setLoginError(false)
     } else {
