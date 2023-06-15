@@ -7,7 +7,7 @@ export default function PasswordCheck() {
   const [displayName, setDisplayName] = useState('')
   const [isMatched, setIsMatched] = useState(false)
 
-  const dummyPasswordCheckRequest: SignInResponse = {
+  const dummyEmailRequest: SignInResponse = {
     user: {
       email: 'example@example.com',
       displayName: 'John Doe',
@@ -19,11 +19,12 @@ export default function PasswordCheck() {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
-    if (email === 'example@example.com' && displayName === 'John Doe') {
+    if (email === dummyEmailRequest.user.email && displayName === dummyEmailRequest.user.displayName) {
       setIsMatched(true)
       window.location.href = '/access/passwordchangeform'
     } else {
       setIsMatched(false)
+      console.log('입력한 값이 틀렸습니다.')
     }
   }
 
