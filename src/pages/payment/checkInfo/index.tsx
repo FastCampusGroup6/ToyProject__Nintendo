@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import ShoppingCart from '@/components/payment/ShoppingCart'
 import Btn from '@/components/payment/Btn'
 
 export default function CheckInfo() {
+  const [totalValue, setTotalValue] = useState(0)
+
+  const getTotalValue = (value: number) => {
+    setTotalValue(value)
+  }
   return (
     <>
       <PayProcessFlow />
@@ -29,13 +34,13 @@ export default function CheckInfo() {
           </div>
         </div>
       </div>
-      <ShoppingCart />
+      <ShoppingCart getTotalValue={getTotalValue} />
       <div className={styles.totals}>
         <div className={styles.mark}>
           <span>합계</span>
         </div>
         <div className={styles.price}>
-          <span>19,990</span>
+          <span>{totalValue}</span>
         </div>
       </div>
       <Btn text="확인" targetURL="/payment/:username/payMethod" />

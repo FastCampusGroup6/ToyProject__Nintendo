@@ -1,0 +1,12 @@
+{
+  "id": "22we1wsffg",
+  "title": "제루다",
+  "price": 69990,
+  "description": "녹색옷이 젤다죠?",
+  "tags": ["탐험", "신제품", "베스트"],
+  "thumbnail": "https://storage.googleapis.com/heropy-api/vIKMk_jy4Yv195256.png",
+  "photo": "https://storage.googleapis.com/heropy-api/voihKb3NLGcv195257.png",
+  "isSoldOut": false,
+  "reservations": [],
+  "discountRate": 0
+}
