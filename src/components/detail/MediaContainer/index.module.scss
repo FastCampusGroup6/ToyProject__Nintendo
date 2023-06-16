@@ -1,7 +1,27 @@
+@import '/src/variables';
+
 .container {
   width: 100%;
   flex-shrink: 0.5;
   padding: 1rem;
+  .backBtnCover {
+    padding: 1.5rem 0;
+    .backBtn {
+      color: $text-sub-grey;
+      text-decoration: none;
+      transition: color 0.2s ease-in-out;
+      &:hover {
+        color: $text-primary-black;
+      }
+    }
+  }
+  .title {
+    font-size: 3rem;
+  }
+  .provider {
+    padding: 1rem 0;
+    color: $point-orange;
+  }
   .imgCover {
     img {
       width: 100%;
