@@ -29,6 +29,8 @@
         .remove {
           margin: 0 16px 8px 0;
           text-align: left;
+          border: none;
+          background-color: $bg-primary-white;
           .removeLink {
             text-decoration: none;
             color: $text-sub-grey;

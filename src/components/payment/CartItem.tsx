@@ -4,9 +4,10 @@ import { Product } from '@/types/product'
 
 interface Props {
   item: Product
+  onRemove: () => void
 }
 
-export default function CartItem({ item }: Props) {
+export default function CartItem({ item, onRemove }: Props) {
   return (
     <>
       <li className={styles.cartItem}>
@@ -17,7 +18,7 @@ export default function CartItem({ item }: Props) {
           <div className={styles.info}>
             <div className={styles.title}>{item.title}</div>
             <div className={styles.etc}>
-              <div className={styles.remove}>
+              <button className={styles.remove} onClick={onRemove}>
                 <a className={styles.removeLink} href="#">
                   <img
                     className={styles.removeIcon}
@@ -26,7 +27,7 @@ export default function CartItem({ item }: Props) {
                   />
                   <span className={styles.removeText}>삭제</span>
                 </a>
-              </div>
+              </button>
               <div className={styles.grade}>
                 <div>
                   <img className={styles.gradeImg} src={`${process.env.PUBLIC_URL}/images/age_all.png`} alt="" />

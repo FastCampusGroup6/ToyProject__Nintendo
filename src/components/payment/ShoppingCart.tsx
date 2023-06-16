@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ShoppingCart.module.scss'
 import CartItem from './CartItem'
 import dummyGoods1 from '@/pages/payment/dummyGoods1.json'
@@ -11,9 +11,23 @@ interface Props {
 }
 
 export default function ShoppingCart({ getTotalValue }: Props) {
-  localStorage.setItem('cart', JSON.stringify([dummyGoods1, dummyGoods2]))
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]') as Products
+  const [cart, setCart] = useState<Products>([])
+
   const currentLocation = useLocation()
+
+  const handleRemoveCartItem = (index: number) => {
+    const updatedCart = [...cart]
+    updatedCart.splice(index, 1)
+    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    setCart(updatedCart)
+  }
+  //랜딩 시 장바구니 저장
+  //dummy라서 현재 라우터위치에서 저장함.
+  //실제 api연동 후에는, 제품상세페이지에서 장바구니 담기 시 setItem 실행, getItem으로 받아오기만 할 것.
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify([dummyGoods1, dummyGoods2]))
+    setCart(JSON.parse(localStorage.getItem('cart') || '[]'))
+  }, [])
 
   useEffect(() => {
     if (getTotalValue && currentLocation.pathname === '/payment/:username/checkInfo') {
@@ -32,7 +46,7 @@ export default function ShoppingCart({ getTotalValue }: Props) {
       <div className="cart-container">
         <ul className={styles.cartList}>
           {cart.map((item: Product, index: number) => (
-            <CartItem key={index} item={item} />
+            <CartItem key={index} item={item} onRemove={() => handleRemoveCartItem(index)} />
           ))}
         </ul>
       </div>

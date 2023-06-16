@@ -3,8 +3,14 @@ import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import ShoppingCart from '@/components/payment/ShoppingCart'
 import Btn from '@/components/payment/Btn'
+import dummyUser from '@/pages/payment/dummyUser.json'
 
 export default function Payment() {
+  //dummyLoginedUser
+  //여기서 api 인증확인 한번 후 props로 데이터전달?
+  const username = dummyUser.user.displayName
+  localStorage.setItem('accessToken', dummyUser.accessToken)
+
   return (
     <div className={styles.background}>
       <div className={styles.container}>
@@ -24,7 +30,7 @@ export default function Payment() {
             </p>
             <p className={styles.noticeP}>🙌 예&#41; 서울특별시 강남구 지하벙커 305호 탐정사무소</p>
           </div>
-          <Btn text="확인" targetURL="/payment/:username/agreement" />
+          <Btn text="확인" targetURL={`/payment/${username}/agreement`} />
         </div>
       </div>
     </div>
