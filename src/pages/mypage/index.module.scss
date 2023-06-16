@@ -1,7 +1,7 @@
 @import '@/_variables.scss';
 
 .aTag {
-  color:$text-primary-black;
+  color: $text-primary-black;
   font-weight: 500;
   text-decoration: none;
   padding: 5px;
@@ -14,12 +14,6 @@
   }
 }
 
-// /* select box 스타일 초기화 */
-// select {
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-//   appearance: none;
-// }
 .container {
   margin: auto;
   width: $mypage-width;
@@ -30,9 +24,9 @@
   .container__section {
     position: relative;
     margin: auto;
+    margin-right: 30px;
     width: 62%;
     height: 95%;
-    margin-left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,30 +36,29 @@
     background-color: $bg-primary-white;
     .container__section__inner {
       position: absolute;
-      height: 90%;
+      height: 70%;
       width: 80%;
       .section__lists {
-        height: 25%;
+        height: 30%;
         display: flex;
         justify-content: space-between;
         .section__list_title {
           position: relative;
           width: 140px;
-          margin: 40px 0px 20px 0px;
           .section__list_text {
             position: absolute;
             left: -5px;
-            margin-top: 20px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             .section__list_link {
-              font-size: 1.3rem;
+              font-size: 1.1rem;
             }
           }
         }
       }
       .section__line {
-        margin: 50px auto;
+        margin: auto;
       }
     }
   }

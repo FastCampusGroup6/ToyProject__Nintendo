@@ -3755,7 +3755,7 @@ function invariant(value, message) {
 function warning(cond, message) {
   if (!cond) {
     // eslint-disable-next-line no-console
-    if (typeof console !== "undefined") console.warn(message);
+    if (typeof console !== "undefined") (message);
     try {
       // Welcome to debugging history!
       //
@@ -47489,7 +47489,7 @@ var socketURL = (0,_utils_createSocketURL_js__WEBPACK_IMPORTED_MODULE_8__["defau
 
       exports.LogType = LogType;
 
-      /** @typedef {typeof LogType[keyof typeof LogType]} LogTypeEnum */
+      /** @typedef {typeof LogType[ typeof LogType]} LogTypeEnum */
 
       var LOG_SYMBOL = (typeof Symbol !== "undefined" ? Symbol : function (i) {
         return i;

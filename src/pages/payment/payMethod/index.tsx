@@ -176,6 +176,14 @@ export default function PayMethod() {
               bankCode={selectedAccount.code}
               bankDigits={selectedAccount.digits}
             />
+            <button
+              className={styles.btn}
+              onClick={() => {
+                navigate('/payment/:username/orderComplete')
+              }}
+            >
+              계좌 등록 후 결제하기
+            </button>
           </div>
         )}
       </Modal>

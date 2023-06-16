@@ -69,7 +69,7 @@ export default function HomeSwiper() {
         // watchSlidesProgress
         // onProgress={(swiper, progress) => {
         //   // todo : nintendo처럼 hover시 slide change가 안 되려면 fillProgressiveBar함수 완성하기
-        //   console.log(progress)
+        //   (progress)
         // }}
       >
         <SwiperSlide className={styles.swiperItem}>

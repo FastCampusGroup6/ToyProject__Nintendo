@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './ConnectedBank.module.scss'
+import { getBankLogo } from './PossibleBank'
 
 interface BankProps {
   bankName: string
@@ -10,11 +11,13 @@ interface BankProps {
 }
 
 export default function Bank({ bankName, accountNumber, balance, handleOnClick, isActive }: BankProps) {
+  const bankLogo = getBankLogo(bankName)
+
   return (
     <button className={`${styles.container} ${isActive ? styles.active : ''}`} onClick={handleOnClick}>
       <div className={styles.bank}>
         <div className={styles.bankLogo}>
-          <img src="#" alt="logo" />
+          <img src={bankLogo} alt="logo" />
         </div>
         <div className={styles.bankInfo}>
           <div className={styles.bankName}>

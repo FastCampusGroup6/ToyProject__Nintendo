@@ -1,5 +1,9 @@
 import React from 'react'
 import styles from './index.module.scss'
+import { Link } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { SearchQuery, searchQueryState } from '@/recoil/search/queryStringState'
+import { generateQueryString } from '@/utils/search'
 
 const genres = [
   '액션',
@@ -23,24 +27,23 @@ const genres = [
 ]
 
 export default function Genre() {
-  const addGenre = () => {
-    return null
-  }
+  const query = useRecoilValue(searchQueryState)
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>장르</h1>
-      <form onClick={addGenre}>
-        <ul className={styles.genreList}>
-          {genres.map((genre) => {
-            return (
-              <li key={genre}>
-                <input type="checkbox" />
-                <span>{genre}</span>
-              </li>
-            )
-          })}
-        </ul>
-      </form>
+      <ul className={styles.genreList}>
+        {genres.map((genre) => {
+          const queryString = generateQueryString<SearchQuery>({ ...query, genre })
+          let classes = `${styles.genre}`
+          if (genre === query.genre) classes += ` ${styles.current}`
+          return (
+            <li className={classes} key={genre}>
+              <Link to={'/search?' + queryString}>{genre}</Link>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }

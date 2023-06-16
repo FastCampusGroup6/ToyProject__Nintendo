@@ -14,6 +14,9 @@ export default function SignUpForm() {
     password: '',
     confirmPassword: ''
   })
+  // email & 비밀번호 정규식
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/
 
   const dummySignUpRequest: SignUpRequest = {
     email: 'example@example.com',
@@ -57,7 +60,7 @@ export default function SignUpForm() {
     }
 
     // 이메일 유효성 검사
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
     if (!emailRegex.test(email)) {
       updatedErrorMessages.email = '메일 주소가 올바르지 않습니다.'
       isValid = false
@@ -70,7 +73,7 @@ export default function SignUpForm() {
     }
 
     // 비밀번호 길이 및 숫자와 영문 혼합 확인
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/
+
     if (!passwordRegex.test(password)) {
       updatedErrorMessages.password = '비밀번호가 올바르지 않습니다.'
       isValid = false
@@ -107,6 +110,7 @@ export default function SignUpForm() {
               />
               {errorMessages.displayName && <div className={styles.error}>{errorMessages.displayName}</div>}
             </div>
+            <button className={styles['duplicate-check']}>중복확인</button>
           </div>
 
           <div className={styles['signup-input-group']}>
@@ -123,7 +127,6 @@ export default function SignUpForm() {
                 required
               />
               {errorMessages.email && <div className={styles.error}>{errorMessages.email}</div>}
-              <button className={styles['duplicate-check']}>중복확인</button>
             </div>
           </div>
 
@@ -170,8 +173,9 @@ export default function SignUpForm() {
               <span>프로필 이미지</span>
             </div>
             <div className={styles['image-info']}>
-              <span>프로필 이미지는 1MB 이하여야 합니다.</span>
               <span>
+                프로필 이미지는 1MB 이하여야 합니다.
+                <br />
                 사용자 프로필 이미지(base64) - jpg, jpeg,
                 <br /> webp, png, gif, svg
               </span>

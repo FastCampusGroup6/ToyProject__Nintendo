@@ -7,6 +7,19 @@ interface Props {
 }
 
 export default function PossibleBank({ bankName, onClick }: Props) {
+  const bankLogo = getBankLogo(bankName)
+
+  return (
+    <button className={styles.container} onClick={onClick}>
+      <div className={styles.bankLogo}>
+        <img className={styles.img} src={bankLogo} alt="로고" />
+      </div>
+      <div className={styles.bankName}>{bankName}</div>
+    </button>
+  )
+}
+
+export const getBankLogo = (bankName: string) => {
   let bankLogo = ''
   switch (bankName) {
     case 'KB국민은행':
@@ -31,13 +44,5 @@ export default function PossibleBank({ bankName, onClick }: Props) {
       bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/kakaobank.svg`
       break
   }
-
-  return (
-    <button className={styles.container} onClick={onClick}>
-      <div className={styles.bankLogo}>
-        <img className={styles.img} src={bankLogo} alt="로고" />
-      </div>
-      <div className={styles.bankName}>{bankName}</div>
-    </button>
-  )
+  return bankLogo
 }

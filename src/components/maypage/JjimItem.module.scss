@@ -24,6 +24,7 @@
     height: 150px;
     border-radius: 10px;
     border: 1px solid $bg-primary-grey;
+    overflow: hidden;
     .imgTag {
       position: relative;
       width: 150px;
@@ -35,7 +36,7 @@
     }
   }
   .spanTag {
-    padding: 10px 5px;
+    padding: 10px 0px;
     font-size: 16px;
     overflow: hidden;
     text-overflow: ellipsis;

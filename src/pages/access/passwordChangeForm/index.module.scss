@@ -1,9 +1,5 @@
 @import '@/_variables.scss';
 
-* {
-  box-sizing: border-box;
-}
-
 .subTitle {
   margin-top: 40px;
   margin-bottom: 40px;
@@ -34,7 +30,6 @@
       .input-group {
         margin-bottom: 20px;
       }
-
 
       .input-text {
         width: 420px;

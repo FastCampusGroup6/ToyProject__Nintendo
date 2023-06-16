@@ -1,9 +1,5 @@
 @import '@/_variables.scss';
 
-* {
-  box-sizing: border-box;
-}
-
 .container {
   display: flex;
   align-items: center;
@@ -18,13 +14,13 @@
 
   .form-signup {
     width: 760px;
-    height: 720px;
+    height: 690px;
     border-radius: 4px;
     border: 10px solid white;
     padding: 44px;
+    text-align: center;
 
     .signup-info {
-      text-align: center;
       margin-bottom: 30px;
     }
   }
@@ -34,69 +30,73 @@
       display: flex;
       flex-wrap: nowrap;
       margin-bottom: 40px;
-      width: 680px;
+      width: 740px;
       height: 40px;
+
+      .duplicate-check {
+        height: 40px;
+        border-radius: 5px;
+        width: 50px;
+        background-color: $bg-primary-grey;
+        border: 0px;
+        cursor: pointer;
+      }
     }
   }
   .input-text {
     width: 140px;
     padding-top: 12px;
   }
-}
-.input-form {
-  width: 520px;
 
-  .duplicate-check {
-    height: 40px;
-    border-radius: 4px;
-    border: 1px solid grey;
-    margin-left: 20px;
-    cursor: pointer;
+  .input-form {
+    width: 480px;
+
+    .input-info {
+      width: 420px;
+      height: 40px;
+      border: 1px solid gray;
+      border-radius: 4px;
+    }
   }
 
+  .image-form {
+    display: flex;
+    flex-wrap: wrap;
 
-  .input-info {
-    width: 420px;
-    height: 40px;
-    border: 1px solid grey;
-    border-radius: 4px;
+    .image-input {
+      width: 200px;
+      height: 150px;
+    }
+
+    .image-info {
+      margin-bottom: 30px;
+      width: 300px;
+      line-height: 25px;
+      color: $text-sub-grey;
+      text-align: left;
+    }
   }
-}
+  .form-submit {
+    flex-wrap: wrap;
+    display: flex;
 
-.image-form {
-  display: flex;
-  flex-wrap: wrap;
+    .continue-group {
+      margin: 0 auto;
+    }
 
-  .image-input {
-    width: 200px;
-    height: 150px;
-  }
+    .continue-button {
+      width: 160px;
+      height: 40px;
+      border-radius: 20px;
+      border: 1px solid gray;
+      cursor: pointer;
+    }
 
-  .image-info {
-    margin-bottom: 30px;
-    width: 300px;
-  }
-}
-.form-submit {
-  flex-wrap: wrap;
-  display: flex;
-
-  .continue-group {
-    margin: 0 auto;
-  }
-
-  .continue-button {
-    width: 160px;
-    height: 40px;
-    border-radius: 20px;
-    border: 1px solid gray;
-    cursor: pointer;
-  }
-
-  .info {
-    flex-wrap: nowrap;
-    width: 600px;
-    text-align: center;
-    margin-bottom: 30px;
+    .info {
+      flex-wrap: nowrap;
+      width: 760px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
   }
 }

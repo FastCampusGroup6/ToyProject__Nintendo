@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './BankConnect.module.scss'
+import { getBankLogo } from './PossibleBank'
 
 interface Props {
   bankName: string
@@ -22,30 +23,8 @@ interface Props {
   */
 
 export default function BankConnection({ bankName, bankCode, bankDigits }: Props) {
-  let bankLogo = ''
-  switch (bankName) {
-    case 'KB국민은행':
-      bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/kbbank.svg`
-      break
-    case '신한은행':
-      bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/shbank.svg`
-      break
-    case '우리은행':
-      bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/wooribank.svg`
-      break
-    case '하나은행':
-      bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/hanabank.svg`
-      break
-    case '케이뱅크':
-      bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/kbank.svg`
-      break
-    case 'NH농협은행':
-      bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/nhbank.svg`
-      break
-    case '카카오뱅크':
-      bankLogo = `${process.env.PUBLIC_URL}/images/banklogos/kakaobank.svg`
-      break
-  }
+  const bankLogo = getBankLogo(bankName)
+
   return (
     <div className={styles.container}>
       <div className={styles.title}> 계좌 등록</div>

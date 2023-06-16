@@ -17,7 +17,7 @@ export default function CertProfile() {
                 비밀번호 재확인
               </label>
               <div className={styles.inner__text}>
-                회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해주세요
+                회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해주세요.
               </div>
             </div>
             <form className={styles.inner__content}>
