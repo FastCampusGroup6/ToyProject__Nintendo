@@ -55,7 +55,7 @@
         .rightInfo {
           display: flex;
           height: 100%;
-          justify-content: end;
+          justify-content: flex-end;
           flex-direction: column;
         }
       }
@@ -65,10 +65,14 @@
     display: flex;
     justify-content: center;
     margin-top: 50px;
-    button {
+    .moreBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
       width: 200px;
       height: 50px;
-      border: none;
+      border: 2px solid $bg-primary-white;
       background-color: $point-red;
       font-size: 1rem;
       font-weight: 700;

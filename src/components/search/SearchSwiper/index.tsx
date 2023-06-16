@@ -33,16 +33,16 @@ export default function SearchSwiper() {
         }}
       >
         <SwiperSlide className={styles.swiperItem}>
-          <img src="/images/home/poketmon_slide.webp" alt="poketmon" />
+          <img src="/images/search/swiper_sports.jpg" alt="sports" />
         </SwiperSlide>
         <SwiperSlide className={styles.swiperItem}>
-          <img src="/images/home/splatoon3_slide.webp" alt="splatoon3" />
+          <img src="/images/search/swiper_xeno3PC.jpg" alt="xeno3PC" />
         </SwiperSlide>
         <SwiperSlide className={styles.swiperItem}>
-          <img src="/images/home/zelda_slide_edition.webp" alt="zelda edition" />
+          <img src="/images/search/swiper_poketmon_zero.png" alt="poketmon_zero" />
         </SwiperSlide>
         <SwiperSlide className={styles.swiperItem}>
-          <img src="/images/home/zelda_slide.webp" alt="zelda slide" />
+          <img src="/images/search/swiper_mariokart8.jpg" alt="mariokart8" />
         </SwiperSlide>
       </Swiper>
     </section>

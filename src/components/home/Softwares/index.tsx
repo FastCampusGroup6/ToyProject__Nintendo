@@ -1,5 +1,7 @@
 import React from 'react'
+
 import styles from './index.module.scss'
+import { Link } from 'react-router-dom'
 
 const softwares = [
   {
@@ -129,7 +131,9 @@ export default function Softwares() {
         })}
       </ul>
       <div className={styles.moreBtnCover}>
-        <button>{'더보기 >'}</button>
+        <Link className={styles.moreBtn} to="/search">
+          {'더보기 >'}
+        </Link>
       </div>
     </section>
   )

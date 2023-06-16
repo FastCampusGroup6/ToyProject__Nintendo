@@ -1,35 +1,60 @@
 @import '/src/variables';
 .container {
   display: flex;
-  height: 50px;
+  height: 73px;
   .logo {
     display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: $point-red;
-    color: $text-light-white;
-  }
-  .nav {
-    flex: 1;
-    .list {
-      display: flex;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    a {
+      display: inline-block;
+      width: 100%;
       height: 100%;
-      li {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-      }
-      .search {
-        flex: 0;
-        min-width: 80px;
-      }
+      line-height: 4.5rem;
+      padding: 0 1rem;
+      color: $text-light-white;
+      text-decoration: none;
     }
   }
-  .userSerivce {
+  .nav {
+    width: 100%;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    img {
+      width: 15px;
+      height: 15px;
+      padding-right: 0.4rem;
+    }
+
+    .productMenu {
+      display: flex;
+      li {
+        line-height: 4.5rem;
+        padding: 0 1rem;
+        border-right: 1px solid rgba(0, 0, 0, 0.2);
+        .item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    .userMenu {
+      display: flex;
+      li {
+        line-height: 4.5rem;
+        padding: 0 1rem;
+        border-left: 1px solid rgba(0, 0, 0, 0.2);
+        .item {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
   }
 }

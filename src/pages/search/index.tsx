@@ -37,8 +37,8 @@ export default function Search() {
 
   return (
     <main className={styles.container}>
+      <SearchSwiper />
       <div className={styles.containerWrapper}>
-        <SearchSwiper />
         <div className={styles.cover}>
           <Genre />
           <div>
