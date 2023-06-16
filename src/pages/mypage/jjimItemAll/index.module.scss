@@ -1,30 +1,4 @@
 @import '@/_variables.scss';
-
-// a {
-//   text-decoration: none;
-//   text-decoration-line: none;
-//   padding: 5px;
-//   background-color: transparent;
-//   line-height: 1.2;
-//   word-spacing: 3px;
-//   letter-spacing: -0.5px;
-//   text-overflow: ellipsis;
-//   &:hover {
-//     text-decoration: underline;
-//     text-underline-position: under;
-//   }
-// }
-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-/* select box 스타일 초기화 */
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
 .container {
   margin: auto;
   width: $mypage-width;
@@ -50,7 +24,7 @@ select {
       }
     }
   }
-  .section__line{
+  .section__line {
     margin: 40px auto;
   }
 }

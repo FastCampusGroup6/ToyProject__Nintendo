@@ -1,0 +1,66 @@
+@import '/src/variables';
+
+.container {
+  background-color: $bg-primary-white;
+  flex-shrink: 1;
+  width: 100%;
+  max-width: 550px;
+  min-width: 424px;
+  padding: 1rem;
+  .underline {
+    text-decoration: underline;
+    color: $point-red;
+    font-weight: 700;
+  }
+  strong {
+    font-weight: 700;
+  }
+  li {
+    list-style: square;
+    margin-left: 2rem;
+    letter-spacing: 0.1rem;
+    line-height: 1.2rem;
+    padding-bottom: 1.5rem;
+  }
+  input[type='checkbox'] {
+    min-width: 25px;
+    min-height: 25px;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+  .priceCover {
+    font-size: 4.5rem;
+    color: $point-orange;
+    text-align: end;
+    margin: 300px 0 50px 0;
+  }
+  .contactCover {
+    padding: 1rem;
+    cursor: pointer;
+  }
+  .btnCover {
+    width: 100%;
+    text-align: end;
+    .downloadBtn {
+      width: 340px;
+      font-size: 2rem;
+      color: $text-light-white;
+      background-color: $point-orange;
+      padding: 0.5rem 1rem;
+      border-radius: 0.2rem;
+      border: none;
+      margin-top: 3rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      &:hover:not(&:disabled) {
+        background-color: $bg-primary-white;
+        border: 1px soild $point-orange;
+        color: $point-orange;
+      }
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

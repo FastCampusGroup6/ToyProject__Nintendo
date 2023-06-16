@@ -1,0 +1,8 @@
+@import '/src/_variables.scss';
+
+.container {
+  background-color: $bg-sub-grey;
+  .cover {
+    display: flex;
+  }
+}
