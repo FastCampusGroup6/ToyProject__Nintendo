@@ -5,7 +5,7 @@ import styles from './PayProcessFlow.module.scss'
 export default function PayProcessFlow() {
   const location = useLocation()
   const path = location.pathname
-  const paymentPathRegex = /^\/payment\/[^/]/
+  const paymentPathRegex = /^\/payment\/[^/]+$/
   const agreementPathRegex = /^\/payment\/[^/]+\/agreement$/
   const checkInfoPathRegex = /^\/payment\/[^/]+\/checkInfo$/
   const payMethodPathRegex = /^\/payment\/[^/]+\/payMethod$/
