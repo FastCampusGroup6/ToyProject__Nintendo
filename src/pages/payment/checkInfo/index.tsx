@@ -3,13 +3,21 @@ import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import ShoppingCart from '@/components/payment/ShoppingCart'
 import Btn from '@/components/payment/Btn'
+import dummyUser from '@/pages/payment/dummyUser.json'
 
 export default function CheckInfo() {
   const [totalValue, setTotalValue] = useState(0)
 
+  //recoilState로 대체하기
+  // localStorage에 저장된 accessToken으로 User정보 fetch? (types : User)
+  // Recoil로 상태관리가 되고 있으면 헤더에서 fetch된 state를 갖다쓰면 되는가?!
+  // 일단 dummyUser.json 을 사용합시다.
+  const user = dummyUser.user
+
   const getTotalValue = (value: number) => {
     setTotalValue(value)
   }
+
   return (
     <>
       <PayProcessFlow />
@@ -26,10 +34,10 @@ export default function CheckInfo() {
           </div>
           <div>
             <div className={styles.content}>
-              <span>김숨막</span>
+              <span>{user.displayName}</span>
             </div>
             <div className={styles.content}>
-              <span>summak@gmail.com</span>
+              <span>{user.email}</span>
             </div>
           </div>
         </div>
@@ -40,7 +48,7 @@ export default function CheckInfo() {
           <span>합계</span>
         </div>
         <div className={styles.price}>
-          <span>{totalValue}</span>
+          <span>{`₩ ${totalValue.toLocaleString()}`}</span>
         </div>
       </div>
       <Btn text="확인" targetURL="/payment/:username/payMethod" />

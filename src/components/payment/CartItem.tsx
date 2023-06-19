@@ -43,7 +43,7 @@ export default function CartItem({ item, onRemove }: Props) {
           <input className={styles.qtyInput} type="text" defaultValue="1" disabled={true} />
         </div>
         <div className={styles.price}>
-          <span>₩ {item.price}</span>
+          <span>₩ {item.price.toLocaleString()}</span>
         </div>
       </li>
     </>

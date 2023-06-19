@@ -14,13 +14,16 @@ export default function ShoppingCart({ getTotalValue }: Props) {
   const [cart, setCart] = useState<Products>([])
 
   const currentLocation = useLocation()
+  const userName = useLocation().pathname.split('/')[2]
 
+  //카트아이템 지우기
   const handleRemoveCartItem = (index: number) => {
     const updatedCart = [...cart]
     updatedCart.splice(index, 1)
     localStorage.setItem('cart', JSON.stringify(updatedCart))
     setCart(updatedCart)
   }
+
   //랜딩 시 장바구니 저장
   //dummy라서 현재 라우터위치에서 저장함.
   //실제 api연동 후에는, 제품상세페이지에서 장바구니 담기 시 setItem 실행, getItem으로 받아오기만 할 것.
@@ -30,7 +33,7 @@ export default function ShoppingCart({ getTotalValue }: Props) {
   }, [])
 
   useEffect(() => {
-    if (getTotalValue && currentLocation.pathname === '/payment/:username/checkInfo') {
+    if (getTotalValue && currentLocation.pathname === `/payment/${userName}/checkInfo`) {
       const total = cart.reduce((acc: number, item: Product) => acc + item.price, 0)
       getTotalValue(total)
     }
