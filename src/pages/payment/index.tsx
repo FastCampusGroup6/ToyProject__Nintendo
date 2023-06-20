@@ -12,6 +12,7 @@ export default function Payment() {
   //여기서 api 인증확인 한번 후 props로 데이터전달?
   const username = dummyUser.user.displayName
   localStorage.setItem('accessToken', dummyUser.accessToken)
+  //임시로 장바구니 set, 제품상세페이지에서 장바구니 클릭하면 추가하도록 하기
   localStorage.setItem('cart', JSON.stringify([dummyGoods1, dummyGoods2]))
 
   return (
