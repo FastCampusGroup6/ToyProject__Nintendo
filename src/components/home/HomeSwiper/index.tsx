@@ -38,13 +38,10 @@ const sildeItems = [
 ]
 
 export default function HomeSwiper() {
-  // https://stackoverflow.com/questions/74261179/how-to-create-swiper-slider-with-progress-bar
-
   return (
     <section className={styles.container}>
       <Swiper
         className={styles.swiper}
-        // install Swiper modules
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay, Parallax]}
         spaceBetween={50}
         slidesPerView={1}

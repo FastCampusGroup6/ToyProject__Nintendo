@@ -1,22 +1,14 @@
-import { atom, selector } from 'recoil'
+import { selector } from 'recoil'
 import { v1 } from 'uuid'
 import { searchProducts } from '@/apis/search'
 import { searchQueryState } from './queryStringState'
 import { SearchProductsResponse } from './../../types/product'
 
-// export const searchProductsState = atom<SearchProductsResponse>({
-//   key: 'searchProductsState' + v1(),
-//   default: []
-// })
-
 export const filteredProductState = selector<SearchProductsResponse>({
   key: 'filteredProductList' + v1(),
   get: async ({ get }) => {
-    // const products = get(searchProductsState)
     const sq = get(searchQueryState)
 
-    // ! 전체목록을 봐야해서 임시로 주석!
-    // if (!sq.search) return []
     const products: SearchProductsResponse = await searchProducts({
       searchText: sq.search ? sq.search : '',
       searchTags: [sq.genre ? sq.genre : '']

@@ -1,6 +1,5 @@
 import { ProductDetail } from '@/types/product'
-import { atom, selector } from 'recoil'
-import { dummyProduct } from '@/pages/detail/dummyProduct'
+import { atom } from 'recoil'
 import { v1 } from 'uuid'
 
 export const productState = atom<ProductDetail>({
