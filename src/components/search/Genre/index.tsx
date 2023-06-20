@@ -34,7 +34,8 @@ export default function Genre() {
       <h1 className={styles.title}>장르</h1>
       <ul className={styles.genreList}>
         {genres.map((genre) => {
-          const queryString = generateQueryString<SearchQuery>({ ...query, genre })
+          const sort = query.sort ? query.sort : 'asc'
+          const queryString = generateQueryString<SearchQuery>({ sort, genre })
           let classes = `${styles.genre}`
           if (genre === query.genre) classes += ` ${styles.current}`
           return (

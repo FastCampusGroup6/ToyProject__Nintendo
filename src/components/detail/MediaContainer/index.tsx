@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { ProductDetail } from '@/types/product'
 import Notice from '../Notice'
 import styles from './index.module.scss'
-import './styles.css'
 
 type Props = {
   product: ProductDetail
@@ -24,7 +23,11 @@ export default function MediaContainer({ product }: Props) {
       <div className={styles.imgCover}>
         <img src={`${product.thumbnail}`} alt={`${product.title} thumbnail`} />
       </div>
-      <div id="product" dangerouslySetInnerHTML={{ __html: product.description }} />
+      {product.description === 'no description' ? (
+        <></>
+      ) : (
+        <div id="product" dangerouslySetInnerHTML={{ __html: product.description }} />
+      )}
       <Notice />
     </div>
   )

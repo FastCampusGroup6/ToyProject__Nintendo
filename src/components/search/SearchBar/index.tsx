@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
@@ -13,16 +13,28 @@ export default function SearchBar() {
   function setSearchText(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value)
   }
-
   function submitSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const params = generateQueryString<SearchQuery>({ ...query, search })
     naviagate('/search?' + params.toString())
   }
+
+  useEffect(() => {
+    setSearch(query.search ? query.search : '')
+  }, [query])
+
   return (
     <div className={styles.container}>
       <form className={styles.cover} onSubmit={submitSearch}>
-        <input type="text" placeholder="검색" minLength={2} maxLength={10} required onChange={setSearchText} />
+        <input
+          type="text"
+          placeholder="검색"
+          minLength={2}
+          maxLength={20}
+          required
+          value={search}
+          onChange={setSearchText}
+        />
         <label htmlFor="submitBtn">
           <img
             className={styles.icon}

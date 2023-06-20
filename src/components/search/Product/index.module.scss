@@ -1,5 +1,9 @@
 @import '/src/variables.scss';
 .item {
+  a {
+    text-decoration: none;
+    color: $text-primary-black;
+  }
   .itemTitle {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
@@ -18,7 +22,11 @@
       color: $point-orange;
     }
   }
-  img {
-    width: 100%;
+  .imgCover {
+    overflow: hidden;
+    height: 150px;
+    img {
+      width: 100%;
+    }
   }
 }

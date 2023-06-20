@@ -21,6 +21,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     a {
       text-decoration: none;
       color: black;
@@ -30,7 +31,6 @@
       height: 15px;
       padding-right: 0.4rem;
     }
-
     .productMenu {
       display: flex;
       li {
@@ -55,6 +55,9 @@
           align-items: center;
         }
       }
+    }
+    .search {
+      cursor: pointer;
     }
   }
 }

@@ -117,7 +117,6 @@ export default function Softwares() {
                     <p>{sw.hardware}</p>
                     <p>{sw.release}</p>
                     <p>{sw.publisher}</p>
-                    <p>{sw.publisher}</p>
                     <p>{sw.softcategory}</p>
                   </div>
                   <div className={styles.rightInfo}>

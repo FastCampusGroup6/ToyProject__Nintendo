@@ -18,9 +18,15 @@ export default function Infomation({ product }: Props) {
       <div className={styles.priceCover}>
         <div className={styles.price}>{price}</div>
       </div>
-      <div className={styles.contactCover} onClick={setCheck}>
-        <input className={styles.checkbox} type="checkbox" defaultChecked={checked} checked={checked} />
-        <ul>
+      <div className={styles.contactCover}>
+        <input
+          className={styles.checkbox}
+          type="checkbox"
+          defaultChecked={checked}
+          checked={checked}
+          onClick={setCheck}
+        />
+        <ul onClick={setCheck}>
           <li>
             <span>
               <span className={styles.underline}>다운로드 구입</span>에 관한 주의 사항을 확인했습니다. (다운로드 상품은
@@ -47,8 +53,8 @@ export default function Infomation({ product }: Props) {
           <button
             type="button"
             className={styles.downloadBtn}
-            disabled={checked}
-            onClick={(e) => console.log('BUTTON CLICKED')}
+            disabled={!checked}
+            onClick={() => console.log('BUTTON CLICKED')}
           >
             다운로드 상품 구매
           </button>
@@ -57,3 +63,4 @@ export default function Infomation({ product }: Props) {
     </div>
   )
 }
+1

@@ -63,7 +63,6 @@ function App() {
         <Route path="/payment/:username/payMethod" element={<PayMethod />} />
         <Route path="/payment/:username/orderComplete" element={<OrderComplete />} />
       </Route>
-
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import MediaContainer from '@/components/detail/MediaContainer'
 import Infomation from '@/components/detail/Infomation'
 import styles from './index.module.scss'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { productState } from '@/recoil/detail/productState'
 
 export default function ProductDetailPage() {

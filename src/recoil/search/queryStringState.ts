@@ -2,10 +2,10 @@ import { atom } from 'recoil'
 import { v1 } from 'uuid'
 
 export type SearchQuery = {
-  [key: string]: string | undefined
   sort?: string
   search?: string
   genre?: string
+  [key: string]: string | undefined
 }
 
 export const searchQueryState = atom<SearchQuery>({

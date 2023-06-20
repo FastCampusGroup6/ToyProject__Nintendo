@@ -48,13 +48,12 @@
       background-color: $point-orange;
       padding: 0.5rem 1rem;
       border-radius: 0.2rem;
-      border: none;
+      border: 2px solid $point-orange;
       margin-top: 3rem;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
       &:hover:not(&:disabled) {
         background-color: $bg-primary-white;
-        border: 1px soild $point-orange;
         color: $point-orange;
       }
       &:disabled {

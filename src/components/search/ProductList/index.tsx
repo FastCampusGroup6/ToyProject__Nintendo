@@ -20,13 +20,10 @@ export default function ProductList() {
     <div className={styles.container}>
       <Filter />
       <ul className={styles.list}>
-        {filteredProducts.length ? (
-          filteredProducts.map((product) => {
-            return <Product key={product.id} product={product} />
-          })
-        ) : (
-          <div>선택된 게임이 없습니다요</div>
-        )}
+        {filteredProducts.map((product) => {
+          return <Product key={product.id} product={product} />
+        })}
+        {filteredProducts.length === 0 && <div>검색 결과가 없습니다.</div>}
       </ul>
     </div>
   )
