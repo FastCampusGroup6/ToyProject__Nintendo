@@ -13,9 +13,8 @@
     border-bottom: 3px solid $bg-light-grey;
     border-top: 1px solid $bg-light-grey;
     padding: 24px 0;
-    justify-content: space-between;
+    justify-content: flex-start;
     .titleContainer {
-      flex-grow: 1;
       .title {
         font-size: 14px;
         font-weight: 600;
@@ -26,7 +25,6 @@
     }
 
     .contentContainer {
-      flex-grow: 1;
       .content {
         font-size: 14px;
         margin-left: 20px;
@@ -35,13 +33,13 @@
         margin-top: 20px;
       }
     }
-
-    .btnContainer {
-      flex-grow: 2;
-      display: flex;
-      justify-content: flex-end;
-      margin-right: 20px;
-    }
   }
-  margin-bottom: 100px;
+  margin-bottom: 30px;
+}
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 35%;
+  margin-bottom: 20px;
 }
