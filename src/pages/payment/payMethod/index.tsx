@@ -10,12 +10,19 @@ import dummyAccountsList from '@/pages/payment/dummyAccountsList.json'
 import { Banks } from '@/types/account'
 import PossibleBank from '@/components/payment/payMethod/PossibleBank'
 import BankConnect from '@/components/payment/payMethod/BankConnect'
+import { Product } from '@/types/product'
 
 //사용되는 api
 // 1. 계좌 조회
 // 2. 계좌 연결
 // 3. 제품거래(구매) 신청
 // 4. 선택가능한 은행 목록 조회
+
+// todo
+// 1. 총 계산금액 (할인율 포함) - 주문 금액, 할인율, 최종 결제 금액 표기 ✅
+// 2. 새로고침 시 모달 초기화 ✅
+// 3. 모달 계좌 연결 정보 입력 (정규식) ✅
+// 4. 계좌 데이터 연결(중요) -
 
 export default function PayMethod() {
   const { accounts }: AccountsBalance = dummyAccounts
@@ -28,14 +35,27 @@ export default function PayMethod() {
   const [bankIndex, setBankIndex] = useState(0)
   const navigate = useNavigate()
 
+  //cartItems 할인 계산
+  const cartItems = JSON.parse(localStorage.getItem('cart') || '[]')
+  const orderPrice = cartItems.map((item: Product) => item.price).reduce((acc: number, cur: number) => acc + cur, 0)
+  const orderFinalPrice = cartItems
+    .map((item: Product) => item.price - (item.price * item.discountRate) / 100)
+    .reduce((acc: number, cur: number) => acc + cur, 0)
+  const discountPrice = orderPrice - orderFinalPrice
+
   useEffect(() => {
     setIsOpen(false)
     setIsClicked(false)
+    setIsModalOpen(false)
+    setNextModal(false)
+    setBankIndex(0)
   }, [])
 
   // 계좌 조회 버튼 핸들러
   const handleAccountsOpen = () => {
     setIsOpen(!isOpen)
+    setIsClicked(false)
+    setActiveIndex(null)
   }
   // 선택계좌 결제하기 버튼 생성 핸들러
   const handleBankOnClick = (index: number) => {
@@ -50,8 +70,9 @@ export default function PayMethod() {
   // 모달 닫기 핸들러
   const handleModalClose = () => {
     setIsModalOpen(false)
+    setNextModal(false)
   }
-
+  //다음 모달 핸들러
   const handleNextModal = (index: number) => {
     setNextModal(true)
     setBankIndex(index)
@@ -109,13 +130,13 @@ export default function PayMethod() {
               </div>
               <div className={styles.contents}>
                 <div className={styles.content}>
-                  <span>19,990</span>
+                  <span>{orderPrice}</span>
                 </div>
                 <div className={styles.content}>
                   <span>무료</span>
                 </div>
                 <div className={styles.content}>
-                  <span>0원</span>
+                  <span>{discountPrice}</span>
                 </div>
               </div>
             </div>
@@ -124,7 +145,7 @@ export default function PayMethod() {
                 <span>최종 결제 금액</span>
               </div>
               <div className={styles.price}>
-                <span>19,990</span>
+                <span>{orderFinalPrice}</span>
               </div>
             </div>
           </div>
@@ -182,7 +203,7 @@ export default function PayMethod() {
                 navigate('/payment/:username/orderComplete')
               }}
             >
-              계좌 등록 후 결제하기
+              계좌 등록 후 바로 결제하기
             </button>
           </div>
         )}
