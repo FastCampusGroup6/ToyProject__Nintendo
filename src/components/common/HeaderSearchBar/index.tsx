@@ -27,7 +27,7 @@ export default function HeaderSearchBar({ isOpen, onSearch }: Props) {
           value={searchText}
           onChange={handleSearchText}
           placeholder="검색어를 입력해 주세요"
-          minLength={3}
+          minLength={2}
           maxLength={20}
           required
         />
