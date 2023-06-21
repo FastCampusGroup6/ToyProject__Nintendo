@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './ShoppingCart.module.scss'
 import CartItem from './CartItem'
-import dummyGoods1 from '@/pages/payment/dummyGoods1.json'
-import dummyGoods2 from '@/pages/payment/dummyGoods2.json'
 import { Products, Product } from '@/types/product'
 import { useLocation } from 'react-router-dom'
 
@@ -28,7 +26,6 @@ export default function ShoppingCart({ getTotalValue }: Props) {
   //dummy라서 현재 라우터위치에서 저장함.
   //실제 api연동 후에는, 제품상세페이지에서 장바구니 담기 시 setItem 실행, getItem으로 받아오기만 할 것.
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify([dummyGoods1, dummyGoods2]))
     setCart(JSON.parse(localStorage.getItem('cart') || '[]'))
   }, [])
 

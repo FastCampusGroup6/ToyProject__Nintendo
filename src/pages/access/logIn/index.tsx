@@ -1,31 +1,29 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
 import { SignInRequest } from '@/types/auth'
+import { signIn } from '@/apis/access/index'
 
 export default function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState(false)
 
-  const dummySignInRequest: SignInRequest = {
-    email: 'example@example.com',
-    password: 'password123'
-  }
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log('로그인 요청:', {
-      email,
-      password
-    })
 
-    if (email === dummySignInRequest.email && password === dummySignInRequest.password) {
-      console.log('로그인 성공:', dummySignInRequest)
-      localStorage.setItem('token', 'dummyAccessToken')
-      setLoginError(false)
+    if (email !== '' && password !== '') {
+      const data: SignInRequest = {
+        email,
+        password
+      }
+
+      console.log('로그인 성공:', data)
+      await signIn(data)
     } else {
-      console.log('로그인 실패')
-      setLoginError(true)
+      console.log('로그인 실패:', {
+        email,
+        password
+      })
     }
   }
 

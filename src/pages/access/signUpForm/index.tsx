@@ -1,5 +1,8 @@
 import React, { useState, useCallback, ChangeEvent } from 'react'
 import styles from './index.module.scss'
+import { signUp, signIn } from '@/apis/access/index'
+import { displayNameRegex, passwordRegex, emailRegex } from '@/utils/constants'
+import { User, Users } from '@/types/user'
 import { SignUpRequest } from '@/types/auth'
 
 export default function SignUpForm() {
@@ -22,30 +25,16 @@ export default function SignUpForm() {
   const [isDisplayNameChecked, setIsDisplayNameChecked] = useState(false)
   const [isDisplayNameDuplicate, setIsDisplayNameDuplicate] = useState(false)
 
-  // email & 닉네임 & 비밀번호 정규식
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/
-  const displayNameRegex = /^[a-zA-Z가-힣0-9\s]{1,10}$/
-
-  // 더미데이터
-
-  const dummySignUpRequest: SignUpRequest = {
-    email: 'example@example.com',
-    password: 'password123',
-    displayName: 'John Doe',
-    profileImgBase64: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/...'
-  }
-
-  // 중복닉네임 실험용 더미데이터
-
-  const dummyData = ['John', 'Jane', 'Alice']
+  // 유저
+  const [user, setUser] = useState({} as User)
+  const [users, setUsers] = useState([] as Users)
 
   // 중복체크 기능
 
   const onIsDisplayNameChecked = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    const isDuplicate = dummyData.includes(displayName)
+    const isDuplicate = users.some((user) => user.displayName === displayName)
 
     // 중복체크 메세지
 
@@ -89,7 +78,8 @@ export default function SignUpForm() {
     // 모든 유효성 검사 통과
     return true
   }
-  //체크박스 기능
+
+  //체크박스 눌러야 화원가입버튼 활성화
   const handleCheckboxChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     console.log('체크박스 확인')
     setIsChecked(e.target.checked)
@@ -97,23 +87,25 @@ export default function SignUpForm() {
 
   // 회원가입 폼제출 및 회원가입 요청
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
     if (validateForm()) {
-      console.log('폼 제출 성공')
-      console.log('회원가입 요청:', {
+      const data: SignUpRequest = {
         email,
         password,
         displayName,
-        profileImgBase64: dummySignUpRequest.profileImgBase64
-      })
+        profileImgBase64: profileImage
+      }
+
+      console.log('폼 제출 성공:', data)
+      await signUp(data)
     } else {
-      console.log('폼 제출 실패')
-      console.log('회원가입 요청실패:', {
+      console.log('폼 제출 실패:', {
         email,
         password,
         displayName,
-        profileImgBase64: dummySignUpRequest.profileImgBase64
+        profileImgBase64: profileImage
       })
     }
   }

@@ -51,7 +51,7 @@ export default function CheckInfo() {
           <span>{`₩ ${totalValue.toLocaleString()}`}</span>
         </div>
       </div>
-      <Btn text="확인" targetURL="/payment/:username/payMethod" />
+      <Btn text="확인" targetURL={`/payment/${user.displayName}/payMethod`} />
     </>
   )
 }

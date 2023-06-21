@@ -25,15 +25,7 @@ export default function MainHeader() {
           <li>
             <Link to="/search">
               <div className={styles.item}>
-                <img src="/images/home/hardware.svg" alt="hardware icon" />
-                <p>베스트 상품 보기</p>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to="/search">
-              <div className={styles.item}>
-                <img src="/images/home/hardware.svg" alt="hardware icon" />
+                <img src="/images/home/store_icon.svg" alt="home icon" />
                 <p>전체 상품 보기</p>
               </div>
             </Link>
@@ -43,7 +35,7 @@ export default function MainHeader() {
           <li className={styles.mypage}>
             <Link to="/user/test/">
               <div className={styles.item}>
-                <img src="/images/home/hardware.svg" alt="hardware icon" />
+                <img src="/images/home/mypage_icon.svg" alt="mypage icon" />
                 <p>마이 페이지</p>
               </div>
             </Link>
@@ -56,7 +48,7 @@ export default function MainHeader() {
               </div>
             </Link>
           </li>
-          <li className={styles.search}>
+          <li className={`${styles.search} ${isOpen ? styles.focus : ''}`}>
             <div className={styles.item} onClick={handleSearchBtn}>
               <img src="/images/search/search_icon.svg" alt="search icon" />
               <p>검색하기</p>

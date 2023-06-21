@@ -8,5 +8,5 @@
   "photo": "https://storage.googleapis.com/heropy-api/voihKb3NLGcv195257.png",
   "isSoldOut": false,
   "reservations": [],
-  "discountRate": 0
+  "discountRate": 10
 }
