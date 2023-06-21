@@ -51,7 +51,7 @@ export default function UserHeader() {
     if (isLogined) {
       fetchUserInfo()
     }
-  }, [isLogined])
+  }, [isLogined, currentLocation])
 
   useEffect(() => {
     if (accessToken) {
