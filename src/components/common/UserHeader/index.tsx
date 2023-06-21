@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import { Link, useLocation } from 'react-router-dom'
 import { getAuthenticatedUser } from '@/apis/payment/access'
-import { User } from '@/types/user'
+import { useRecoilState } from 'recoil'
+import { userState } from '@/recoil/common/userState'
 
 export default function UserHeader() {
   const [currentTitle, setCurrentTitle] = useState('')
@@ -10,7 +11,7 @@ export default function UserHeader() {
   const [cartItemCount, setCartItemCount] = useState(0)
   const [isUserClicked, setIsUserClicked] = useState(false)
   const [isLogined, setIsLogined] = useState(false)
-  const [userInfo, setUserInfo] = useState({} as User)
+  const [userInfo, setUserInfo] = useRecoilState(userState)
 
   // 유저 정보 받아오기
   const accessToken = localStorage.getItem('token') || ''
