@@ -3,17 +3,12 @@ import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import ShoppingCart from '@/components/payment/ShoppingCart'
 import Btn from '@/components/payment/Btn'
-import dummyUser from '@/pages/payment/dummyUser.json'
-import dummyGoods1 from '@/pages/payment/dummyGoods1.json'
-import dummyGoods2 from '@/pages/payment/dummyGoods2.json'
+import { userState } from '@/recoil/common/userState'
+import { useRecoilValue } from 'recoil'
 
 export default function Payment() {
-  //dummyLoginedUser
-  //여기서 api 인증확인 한번 후 props로 데이터전달?
-  const username = dummyUser.user.displayName
-  // localStorage.setItem('accessToken', dummyUser.accessToken)
-  //임시로 장바구니 set, 제품상세페이지에서 장바구니 클릭하면 추가하도록 하기
-  // localStorage.setItem('cart', JSON.stringify([dummyGoods1, dummyGoods2]))
+  const user = useRecoilValue(userState)
+  const username = user.displayName
 
   return (
     <div className={styles.background}>

@@ -3,16 +3,19 @@ import styles from './ShoppingCart.module.scss'
 import CartItem from './CartItem'
 import { Products, Product } from '@/types/product'
 import { useLocation } from 'react-router-dom'
+import { User } from '@/types/user'
 
 interface Props {
   getTotalValue?: (value: number) => void
+  user?: User
 }
-
-export default function ShoppingCart({ getTotalValue }: Props) {
+// localStorage에
+// 'cart' : [{},{}, {}, {}]' 이런 형태로 들어간다.
+// 추가로 객체 중 하나는 User 객체다.
+export default function ShoppingCart({ getTotalValue, user }: Props) {
   const [cart, setCart] = useState<Products>([])
-
   const currentLocation = useLocation()
-  const userName = useLocation().pathname.split('/')[2]
+  const userName = user?.displayName
 
   //카트아이템 지우기
   const handleRemoveCartItem = (index: number) => {
@@ -23,8 +26,6 @@ export default function ShoppingCart({ getTotalValue }: Props) {
   }
 
   //랜딩 시 장바구니 저장
-  //dummy라서 현재 라우터위치에서 저장함.
-  //실제 api연동 후에는, 제품상세페이지에서 장바구니 담기 시 setItem 실행, getItem으로 받아오기만 할 것.
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem('cart') || '[]'))
   }, [])
@@ -45,9 +46,10 @@ export default function ShoppingCart({ getTotalValue }: Props) {
       </div>
       <div className="cart-container">
         <ul className={styles.cartList}>
-          {cart.map((item: Product, index: number) => (
-            <CartItem key={index} item={item} onRemove={() => handleRemoveCartItem(index)} />
-          ))}
+          {cart.length > 0 &&
+            cart.map((item: Product, index: number) => (
+              <CartItem key={index} item={item} onRemove={() => handleRemoveCartItem(index)} />
+            ))}
         </ul>
       </div>
     </div>
