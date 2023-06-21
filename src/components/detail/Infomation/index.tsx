@@ -1,16 +1,52 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
 import { ProductDetail } from '@/types/product'
+import api from '@/apis'
+import { useNavigate } from 'react-router-dom'
+import { User } from '@/types/user'
 
 type Props = {
   product: ProductDetail
 }
 export default function Infomation({ product }: Props) {
+  const navigate = useNavigate()
   const [checked, setChecked] = useState(false)
   const price = product.price?.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
 
   function setCheck() {
     setChecked(!checked)
+  }
+
+  async function buyProduct() {
+    const accessToken = localStorage.getItem('token')
+    if (!accessToken) {
+      alert('로그인이 필요합니다.')
+      return
+    }
+    const response = await api('https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    const user: User = response.data
+
+    if (!user) {
+      alert('유저 정보를 찾을 수 없습니다.')
+      return
+    }
+    const userCart = {
+      ...user,
+      ...product
+    }
+    const cartItems = localStorage.getItem('cart')
+    const prevUserCart = cartItems ? JSON.parse(cartItems) : null
+    if (!prevUserCart) {
+      localStorage.setItem('cart', JSON.stringify([userCart]))
+    } else {
+      localStorage.setItem('cart', JSON.stringify([userCart, ...prevUserCart]))
+    }
+    navigate(`/payment/${encodeURIComponent(user.displayName)}`)
   }
 
   return (
@@ -50,12 +86,7 @@ export default function Infomation({ product }: Props) {
           </li>
         </ul>
         <div className={styles.btnCover}>
-          <button
-            type="button"
-            className={styles.downloadBtn}
-            disabled={!checked}
-            onClick={() => console.log('BUTTON CLICKED')}
-          >
+          <button type="button" className={styles.downloadBtn} disabled={!checked} onClick={buyProduct}>
             다운로드 상품 구매
           </button>
         </div>
