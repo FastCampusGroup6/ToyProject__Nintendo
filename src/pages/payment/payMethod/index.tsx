@@ -48,8 +48,8 @@ import { Product } from '@/types/product'
 // 5. api 불러와서 연동
 
 export default function PayMethod() {
-  const { accounts }: AccountsBalance = dummyAccounts
-  const accountsList: Banks = dummyAccountsList
+  const { accounts }: AccountsBalance = dummyAccounts //
+  const accountsList: Banks = dummyAccountsList // api 연결 응답데이터 받기
   const [isOpen, setIsOpen] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
