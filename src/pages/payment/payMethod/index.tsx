@@ -11,6 +11,9 @@ import { Banks, AccountConnectionRequest } from '@/types/account'
 import PossibleBank from '@/components/payment/payMethod/PossibleBank'
 import BankConnect from '@/components/payment/payMethod/BankConnect'
 import { Product } from '@/types/product'
+import { UserCart, UserCartItem } from '@/types/usercart'
+import { getSelectableAccounts, getConnectedAccounts, postConnectAccount } from '@/apis/payment/account'
+import { postBuyProduct } from '@/apis/payment/product'
 
 //사용되는 api
 // 1. 계좌 조회
