@@ -1,9 +1,14 @@
 import api from '@/apis'
-import { ProductDetail } from '@/types/product'
-export async function getProduct(productId: ProductDetail['id']) {
+import { TransactionReservationRequest } from '@/types/product'
+
+export const postBuyProduct = async (accessToken: string, requestBody: TransactionReservationRequest) => {
   const response = await api({
-    method: 'GET',
-    url: `/api/products/${productId}`
+    method: 'POST',
+    url: '/api/products/buy',
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    },
+    data: requestBody
   })
   return response.data
 }
