@@ -5,9 +5,10 @@ import styles from './Btn.module.scss'
 export type BtnProps = {
   text: string
   targetURL: string
+  active?: boolean
 }
 
-export default function Btn({ text, targetURL }: BtnProps) {
+export default function Btn({ text, targetURL, active }: BtnProps) {
   const navigate = useNavigate()
 
   return (
@@ -18,6 +19,8 @@ export default function Btn({ text, targetURL }: BtnProps) {
           onClick={() => {
             navigate(`${targetURL}`)
           }}
+          disabled={active}
+          style={active ? { backgroundColor: '#e6011076', cursor: 'default' } : {}}
         >
           {text}
         </button>
