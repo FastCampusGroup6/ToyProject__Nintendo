@@ -1,6 +1,7 @@
-import React, { useState, useCallback, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import styles from './index.module.scss'
-import { signUp, signIn } from '@/apis/access/index'
+import { signUp } from '@/apis/access/signUp/index'
+
 import { displayNameRegex, passwordRegex, emailRegex } from '@/utils/constants'
 import { User, Users } from '@/types/user'
 import { SignUpRequest } from '@/types/auth'
@@ -11,7 +12,6 @@ export default function SignUpForm() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [profileImage, setProfileImage] = useState('')
-  const [previewImage, setPreviewImage] = useState('')
   const [isChecked, setIsChecked] = useState(false)
 
   // 메세지 상태 저장
@@ -80,10 +80,10 @@ export default function SignUpForm() {
   }
 
   //체크박스 눌러야 화원가입버튼 활성화
-  const handleCheckboxChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log('체크박스 확인')
     setIsChecked(e.target.checked)
-  }, [])
+  }
 
   // 회원가입 폼제출 및 회원가입 요청
 
@@ -110,63 +110,51 @@ export default function SignUpForm() {
     }
   }
 
-  // 이메일 콜백함수를 이용해 메세지를 실시간으로 반영
-  const onChangeEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curEmail = e.target.value
-      setEmail(curEmail)
+  // 이메일 유효성 검사 및 메세지
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const curEmail = e.target.value
+    setEmail(curEmail)
 
-      if (!emailRegex.test(curEmail)) {
-        setEmailMsg('메일 주소가 올바르지 않습니다.')
-      } else {
-        setEmailMsg('올바른 이메일 형식입니다.')
-      }
-    },
-    [emailRegex]
-  )
+    if (!emailRegex.test(curEmail)) {
+      setEmailMsg('메일 주소가 올바르지 않습니다.')
+    } else {
+      setEmailMsg('올바른 이메일 형식입니다.')
+    }
+  }
 
-  // 닉네임 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangeDisplayName = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curDisplayName = e.target.value
-      setDisplayName(curDisplayName)
+  // 닉네임 유효성 검사 및 메세지
+  const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const curDisplayName = e.target.value
+    setDisplayName(curDisplayName)
 
-      if (!displayNameRegex.test(curDisplayName)) {
-        setDisplayNameMsg('닉네임이 올바르지 않습니다.')
-      } else {
-        setDisplayNameMsg('올바른 닉네임 형식입니다.')
-      }
-    },
-    [displayNameRegex]
-  )
-  // 비밀번호 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangePassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curPassword = e.target.value
-      setPassword(curPassword)
+    if (!displayNameRegex.test(curDisplayName)) {
+      setDisplayNameMsg('닉네임이 올바르지 않습니다.')
+    } else {
+      setDisplayNameMsg('올바른 닉네임 형식입니다.')
+    }
+  }
+  // 비밀번호 유효성 검사 및 메세지
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const curPassword = e.target.value
+    setPassword(curPassword)
 
-      if (!passwordRegex.test(curPassword)) {
-        setPwdMsg('비밀번호가 올바르지 않습니다.')
-      } else {
-        setPwdMsg('안전한 비밀번호입니다.')
-      }
-    },
-    [passwordRegex]
-  )
-  // 비밀번호 일치 여부 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangeConfirmPassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curConfirmPassword = e.target.value
-      setConfirmPassword(curConfirmPassword)
+    if (!passwordRegex.test(curPassword)) {
+      setPwdMsg('비밀번호가 올바르지 않습니다.')
+    } else {
+      setPwdMsg('안전한 비밀번호입니다.')
+    }
+  }
+  // 비밀번호 일치 여부
+  const onChangeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const curConfirmPassword = e.target.value
+    setConfirmPassword(curConfirmPassword)
 
-      if (password !== curConfirmPassword) {
-        setConfirmPwdMsg('비밀번호가 일치하지 않습니다.')
-      } else {
-        setConfirmPwdMsg('올바른 비밀번호입니다.')
-      }
-    },
-    [password]
-  )
+    if (password !== curConfirmPassword) {
+      setConfirmPwdMsg('비밀번호가 일치하지 않습니다.')
+    } else {
+      setConfirmPwdMsg('올바른 비밀번호입니다.')
+    }
+  }
 
   //이미지 미리보기
   const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,16 +165,16 @@ export default function SignUpForm() {
       reader.onloadend = () => {
         const base64 = reader.result
         if (base64) {
-          setPreviewImage(base64.toString())
-          uploadImage(base64.toString())
+          const str = base64?.toString()
+          if (str && str.length > 1048576) {
+            alert('이미지는 1MB이하여야합니다!')
+            return
+          }
+          setProfileImage(base64.toString())
         }
       }
       reader.readAsDataURL(file)
     }
-  }
-  //프로필 이미지 상태설정
-  const uploadImage = (base64: string) => {
-    setProfileImage(base64)
   }
 
   return (
@@ -305,12 +293,13 @@ export default function SignUpForm() {
                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
                 />
               </div>
-
-              {!previewImage ? (
-                <div className={styles['image-upload']} />
-              ) : (
-                <img className={styles['preview-image']} src={previewImage} alt="프로필 이미지" />
-              )}
+              <div className={styles['image-upload']}>
+                {profileImage ? (
+                  <img className={styles['preview-image']} src={profileImage} alt="" />
+                ) : (
+                  <img className={styles['preview-image']} src="/images/search/image-not-found.png" />
+                )}
+              </div>
               <span className={styles['image-title']}>프로필 이미지</span>
             </div>
             <div className={styles['image-info']}>

@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import styles from './ShoppingCart.module.scss'
 import CartItem from './CartItem'
-import { Products, Product } from '@/types/product'
 import { useLocation } from 'react-router-dom'
+import { User } from '@/types/user'
+import { UserCart, UserCartItem } from '@/types/usercart'
 
 interface Props {
   getTotalValue?: (value: number) => void
+  user?: User
 }
-
-export default function ShoppingCart({ getTotalValue }: Props) {
-  const [cart, setCart] = useState<Products>([])
-
+// localStorage에
+// 'cart' : [{},{}, {}, {}]' 이런 형태로 들어간다.
+// 각 객체에는 User + Product 타입이 들어간다.
+// 따라서 카트에 들어가는 객체는 Products타입이 아니라, User & Product의 유니온 타입이다.
+// 이 객체 타입을 지정해야함.
+export default function ShoppingCart({ getTotalValue, user }: Props) {
+  const [cart, setCart] = useState<UserCart>([])
   const currentLocation = useLocation()
-  const userName = useLocation().pathname.split('/')[2]
+  const userName = user?.displayName
+  const userEmail = user?.email
 
   //카트아이템 지우기
   const handleRemoveCartItem = (index: number) => {
@@ -23,15 +29,13 @@ export default function ShoppingCart({ getTotalValue }: Props) {
   }
 
   //랜딩 시 장바구니 저장
-  //dummy라서 현재 라우터위치에서 저장함.
-  //실제 api연동 후에는, 제품상세페이지에서 장바구니 담기 시 setItem 실행, getItem으로 받아오기만 할 것.
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem('cart') || '[]'))
   }, [])
 
   useEffect(() => {
     if (getTotalValue && currentLocation.pathname === `/payment/${userName}/checkInfo`) {
-      const total = cart.reduce((acc: number, item: Product) => acc + item.price, 0)
+      const total = cart.reduce((acc: number, item: UserCartItem) => acc + item.price, 0)
       getTotalValue(total)
     }
   }, [cart, currentLocation.pathname, getTotalValue])
@@ -45,9 +49,16 @@ export default function ShoppingCart({ getTotalValue }: Props) {
       </div>
       <div className="cart-container">
         <ul className={styles.cartList}>
-          {cart.map((item: Product, index: number) => (
-            <CartItem key={index} item={item} onRemove={() => handleRemoveCartItem(index)} />
-          ))}
+          {/* 만약 userCart의 email과, 리코일의 user.email(props로 받아옴)이 다르다면? user.email과 일치하는 userCartItem을 출력한다. */}
+          {cart.length > 0 ? (
+            cart
+              .filter((item: UserCartItem) => item.email === userEmail)
+              .map((item: UserCartItem, index: number) => (
+                <CartItem key={index} item={item} onRemove={() => handleRemoveCartItem(index)} />
+              ))
+          ) : (
+            <div> 장바구니에 담긴 물건이 없습니다! </div>
+          )}
         </ul>
       </div>
     </div>

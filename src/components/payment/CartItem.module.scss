@@ -13,6 +13,10 @@
       height: auto;
       max-width: 200px;
       overflow: hidden;
+      .img {
+        width: 150px;
+        height: auto;
+      }
     }
     .info {
       flex: 1;

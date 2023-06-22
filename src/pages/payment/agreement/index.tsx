@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import { useNavigate } from 'react-router-dom'
+import { userState } from '@/recoil/common/userState'
+import { useRecoilValue } from 'recoil'
 
 export default function Agreement() {
   const [check, setCheck] = useState([false, false, false] as boolean[])
   const [active, setActive] = useState(false)
-
+  const user = useRecoilValue(userState)
   const navigate = useNavigate()
 
   const handleBtnClick = () => {
-    navigate('/payment/:username/checkInfo')
+    navigate(`/payment/${user.displayName}/checkInfo`)
   }
 
   const handleCheckBoxChange = (index: number) => {

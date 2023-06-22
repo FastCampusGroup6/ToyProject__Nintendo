@@ -1,18 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import ShoppingCart from '@/components/payment/ShoppingCart'
 import Btn from '@/components/payment/Btn'
-import dummyUser from '@/pages/payment/dummyUser.json'
+import { useRecoilValue } from 'recoil'
+import { userState } from '@/recoil/common/userState'
+import { UserCart, UserCartItem } from '@/types/usercart'
 
 export default function CheckInfo() {
+  const [btnActive, setBtnActive] = useState(false)
   const [totalValue, setTotalValue] = useState(0)
+  const user = useRecoilValue(userState)
+  //recoilState로 대체하기 ✔
+  // localStorage에 저장된 accessToken으로 User정보 fetch? (types : User) ✔
+  // Recoil로 상태관리가 되고 있으면 헤더에서 fetch된 state를 갖다쓰면 되는가?! ✔
 
-  //recoilState로 대체하기
-  // localStorage에 저장된 accessToken으로 User정보 fetch? (types : User)
-  // Recoil로 상태관리가 되고 있으면 헤더에서 fetch된 state를 갖다쓰면 되는가?!
-  // 일단 dummyUser.json 을 사용합시다.
-  const user = dummyUser.user
+  const userCart: UserCart = JSON.parse(localStorage.getItem('cart') || '[]')
+  const matchedUserCart = userCart.filter((item: UserCartItem) => item.email === user.email)
+
+  useEffect(() => {
+    if (matchedUserCart.length === 0) {
+      setBtnActive(true)
+    }
+  }, [matchedUserCart])
 
   const getTotalValue = (value: number) => {
     setTotalValue(value)
@@ -42,7 +52,7 @@ export default function CheckInfo() {
           </div>
         </div>
       </div>
-      <ShoppingCart getTotalValue={getTotalValue} />
+      <ShoppingCart getTotalValue={getTotalValue} user={user} />
       <div className={styles.totals}>
         <div className={styles.mark}>
           <span>합계</span>
@@ -51,7 +61,7 @@ export default function CheckInfo() {
           <span>{`₩ ${totalValue.toLocaleString()}`}</span>
         </div>
       </div>
-      <Btn text="확인" targetURL={`/payment/${user.displayName}/payMethod`} />
+      <Btn text="확인" targetURL={`/payment/${user.displayName}/payMethod`} active={btnActive} />
     </>
   )
 }
