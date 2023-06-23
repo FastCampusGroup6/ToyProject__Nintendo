@@ -61,6 +61,8 @@ export default function PayMethod() {
 
   //accessToken 가져오기
   const accessToken = localStorage.getItem('token') || ''
+  // 연결가능한 계좌에서 선택된 계좌
+  const selectedAccount = possibleAccounts[bankIndex]
 
   useEffect(() => {
     setIsOpen(false)
@@ -147,7 +149,6 @@ export default function PayMethod() {
           postBuyProduct(accessToken, { productId: item.id, accountId: bankConnectId })
         )
         const buyRes = await Promise.all(buyPromises)
-        console.log(buyRes)
         navigate(`/payment/${user.displayName}/orderComplete`)
       } catch (error) {
         console.error(error)
@@ -155,13 +156,23 @@ export default function PayMethod() {
     }
   }
 
-  const handleSelectedBankOrder = () => {
+  const handleSelectedBankOrder = async () => {
     // api 거래 신청 요청.
-    // 완료시 navigate('/payment/:username/orderComplete')
-    navigate(`/payment/${user.displayName}/orderComplete`)
+    try {
+      const buyPromises = userCart.map((item) => {
+        if (activeIndex) {
+          postBuyProduct(accessToken, {
+            productId: item.id,
+            accountId: connectedAccounts.accounts[activeIndex].id
+          })
+        }
+      })
+      const buyRes = await Promise.all(buyPromises)
+      navigate(`/payment/${user.displayName}/orderComplete`)
+    } catch (error) {
+      console.error(error)
+    }
   }
-
-  const selectedAccount = possibleAccounts[bankIndex]
 
   return (
     <>

@@ -29,9 +29,7 @@ export default function UserHeader() {
     // api 호출함수 authenticate(accessToken) 호출
     if (isLogined) {
       try {
-        console.log('로딩중..')
         const userData = await getAuthenticatedUser(accessToken)
-        console.log(userData)
         return setUserInfo(userData)
       } catch (error) {
         console.error(error, 'fetchUserInfo 오류1')
