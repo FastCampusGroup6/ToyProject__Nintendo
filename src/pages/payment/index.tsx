@@ -17,6 +17,8 @@ export default function Payment() {
   useEffect(() => {
     if (matchedUserCart.length === 0) {
       setBtnActive(true)
+    } else {
+      setBtnActive(false)
     }
   }, [matchedUserCart])
 
