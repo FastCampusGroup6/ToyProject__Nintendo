@@ -12,3 +12,14 @@ export const postBuyProduct = async (accessToken: string, requestBody: Transacti
   })
   return response.data
 }
+
+export const getTransactionDetails = async (accessToken: string) => {
+  const response = await api({
+    method: 'GET',
+    url: '/api/products/transactions/details',
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+  return response.data
+}

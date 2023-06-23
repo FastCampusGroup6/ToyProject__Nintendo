@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import Btn from '@/components/payment/Btn'
-import { Product, UserTransactionDetail } from '@/types/product'
-import dummyTransactionDetails from '@/pages/payment/dummyTransactionDetails.json'
+import { Product, UserTransactionDetails } from '@/types/product'
+import { getTransactionDetails } from '@/apis/payment/product'
 
 export default function OrderComplete() {
+  const [transactionDetails, setTransactionDetails] = useState<UserTransactionDetails>([])
   //1. 장바구니에 있던 제품을 받아와야하나?
   //2. 제품 전체 거래(구매) 내역 api 호출
   //3. 장바구니에 있는 제품이랑 비교
@@ -15,22 +16,27 @@ export default function OrderComplete() {
   //버튼 누르면 마이페이지 주문내역으로 이동하기.
 
   const cartItems: Product[] = JSON.parse(localStorage.getItem('cart') || '[]')
+  const accessToken = localStorage.getItem('token') || ''
 
   useEffect(() => {
+    // 랜딩 시 details 저장
+    matchedTransactionDetails()
     // 장바구니에 담겨있던 제품들을 삭제
-    localStorage.setItem('cart', JSON.stringify([]))
+    localStorage.removeItem('cart')
   }, [])
 
-  const matchedTransactionDetails = (): UserTransactionDetail[] => {
+  const matchedTransactionDetails = async (): Promise<void> => {
     // 제품 전체 거래(구매) 내역 API 호출 또는 dummy 데이터 사용
-    const transactionDetails: UserTransactionDetail[] = dummyTransactionDetails
-
-    // 장바구니에 있는 제품과 비교하여 매칭된 거래 내역 필터링
-    const matchedDetails = transactionDetails.filter((detail) =>
-      cartItems.some((item) => item.id === detail.product.productId)
-    )
-
-    return matchedDetails
+    try {
+      const transactionDetails: UserTransactionDetails = await getTransactionDetails(accessToken)
+      // 장바구니에 있는 제품과 비교하여 매칭된 거래 내역 필터링
+      const matchedDetails = transactionDetails.filter((detail) =>
+        cartItems.some((item) => item.id === detail.product.productId)
+      )
+      setTransactionDetails(matchedDetails)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -38,7 +44,7 @@ export default function OrderComplete() {
       <PayProcessFlow />
       <div className={styles.orderer}>
         <div className={styles.orderInfo}>주문 완료</div>
-        {matchedTransactionDetails().map((detail, index) => (
+        {transactionDetails.map((detail, index) => (
           <div key={index} className={styles.info}>
             <div className={styles.titleContainer}>
               <div className={styles.title}>
