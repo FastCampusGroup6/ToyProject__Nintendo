@@ -5,7 +5,7 @@ import ConnectedBank from '@/components/payment/payMethod/ConnectedBank'
 import { AccountsBalance } from '@/types/account'
 import { useNavigate } from 'react-router-dom'
 import Modal from '@/components/common/Modal'
-import { Bank, Banks, AccountConnectionRequest } from '@/types/account'
+import { Banks, AccountConnectionRequest } from '@/types/account'
 import PossibleBank from '@/components/payment/payMethod/PossibleBank'
 import BankConnect from '@/components/payment/payMethod/BankConnect'
 import { Product } from '@/types/product'
@@ -121,23 +121,38 @@ export default function PayMethod() {
     setBankConnectData(data)
   }
 
-  const handleBankConnectOrder = () => {
+  // api 은행 계좌 등록 요청. postConnectAccount(accessToken: string, requestBody: AccountConnectionRequest) ✅
+  // 요청 완료 시 api 거래 신청 요청.  postBuyProduct(accessToken: string, requestBody: TransactionReservationRequest) ✅
+  // 반복문 사용해서 productId만큼 요청보내기? -- 반복문에 비동기처리는 권장되지않음 == Promise.all() 로 처리하기 ✅
+  // 예외처리 - BankConnectData가 양식에 맞지 않을 경우, 올바른 계좌번호를 or 전화번호를 입력해주세요! alert보내기 ✅
+  // 완료 시 navigate('/payment/:username/orderComplete') ✅
+  const handleBankConnectOrder = async () => {
     const accountNumLength = selectedAccount.digits.reduce((acc, val) => acc + val, 0)
     if (BankConnectData.accountNumber.length !== accountNumLength) {
       alert('올바른 계좌번호를 입력해주세요!')
-    } else if (BankConnectData.phoneNumber.length !== 10) {
+    } else if (BankConnectData.phoneNumber.length !== 11) {
       alert('올바른 전화번호를 입력해주세요!')
     } else {
       // 수행할 로직
-      navigate(`/payment/${user.displayName}/orderComplete`)
+      try {
+        const bankConnectRes = await postConnectAccount(accessToken, BankConnectData)
+        console.log(bankConnectRes)
+        const bankConnectId = bankConnectRes.id
+        // for (let i = 0; i < userCart.length; i++) {
+        //   const buyRes = await postBuyProduct(accessToken, { productId: userCart[i].id, accountId: bankConnectId })
+        //   console.log(buyRes)
+        // }
+        // Promise.all() 사용
+        const buyPromises = userCart.map((item) =>
+          postBuyProduct(accessToken, { productId: item.id, accountId: bankConnectId })
+        )
+        const buyRes = await Promise.all(buyPromises)
+        console.log(buyRes)
+        navigate(`/payment/${user.displayName}/orderComplete`)
+      } catch (error) {
+        console.error(error)
+      }
     }
-    // api 은행 계좌 등록 요청. function(BankConnectData)
-    // 요청 완료 시 api 거래 신청 요청. accountId, productId 만 있으면 됨. function(BankConnectData.accountNumber, )
-    // 근데 productId가 배열데이터가 아님. 아
-    // 반복문 사용해서 productId만큼 요청보내기?
-    // 예외처리 - BankConnectData가 양식에 맞지 않을 경우, 올바른 계좌번호를 or 전화번호를 입력해주세요! alert보내기 ✅
-    // 아 어렵다
-    // 완료 시 navigate('/payment/:username/orderComplete')
   }
 
   const handleSelectedBankOrder = () => {
