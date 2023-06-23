@@ -185,7 +185,7 @@ export default function PayMethod() {
                 <>
                   <div className={styles.title}>결제할 계좌를 선택해주세요!</div>
                   <div className={styles.bankContainer}>
-                    {connectedAccounts?.accounts.map((account, index) => (
+                    {connectedAccounts.accounts.map((account, index) => (
                       <ConnectedBank
                         key={index}
                         bankName={account.bankName}
