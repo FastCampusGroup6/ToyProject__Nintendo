@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { SearchProductsResponse } from '@/types/product'
 import styles from './index.module.scss'
 
@@ -12,7 +13,11 @@ export default function Product({ product }: Props) {
     <li className={styles.item}>
       <Link to={`/detail/${product.id}`}>
         <div className={styles.imgCover}>
-          <img src={product.thumbnail ? product.thumbnail : '/image/search/image-not-found.png'} alt={product.title} />
+          <LazyLoadImage
+            src={product.thumbnail ? product.thumbnail : '/image/search/image-not-found.png'}
+            width={420}
+            alt={product.title}
+          />
         </div>
         <div className={styles.contentCover}>
           <p>

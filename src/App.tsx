@@ -3,37 +3,89 @@ import loadable from '@loadable/component'
 import './App.scss'
 import Home from './pages/home'
 import { Route, Routes } from 'react-router-dom'
-const MainLayout = loadable(() => import('./layouts/MainLayout'))
-const AccessLayout = loadable(() => import('./layouts/AccessLayout'))
-const MyPageLayout = loadable(() => import('./layouts/MypageLayout'))
-const PaymentLayout = loadable(() => import('./layouts/PaymentLayout'))
+const MainLayout = loadable(() => import('./layouts/MainLayout'), {
+  fallback: <div>loading...</div>
+})
+const AccessLayout = loadable(() => import('./layouts/AccessLayout'), {
+  fallback: <div>loading...</div>
+})
+const MyPageLayout = loadable(() => import('./layouts/MypageLayout'), {
+  fallback: <div>loading...</div>
+})
+const PaymentLayout = loadable(() => import('./layouts/PaymentLayout'), {
+  fallback: <div>loading...</div>
+})
 
 //Main!!!!
-const Search = loadable(() => import('./pages/search'))
-const Detail = loadable(() => import('./pages/detail'))
+const Search = loadable(() => import('./pages/search'), {
+  fallback: <div>loading...</div>
+})
+const Detail = loadable(() => import('./pages/detail'), {
+  fallback: <div>loading...</div>
+})
 //MyPage!!!!
-const MyPage = loadable(() => import('./pages/mypage'))
-const GetItemAll = loadable(() => import('./pages/mypage/getItemAll'))
-const JjimItemAll = loadable(() => import('./pages/mypage/jjimItemAll'))
-const CertProfile = loadable(() => import('./pages/mypage/certProfile'))
-const EditProfile = loadable(() => import('./pages/mypage/certProfile/editProfile'))
-const Account = loadable(() => import('./pages/mypage/account'))
-const AddAccount = loadable(() => import('./pages/mypage/account/addAccount'))
-const BankName = loadable(() => import('./pages/mypage/account/banks'))
+const MyPage = loadable(() => import('./pages/mypage'), {
+  fallback: <div>loading...</div>
+})
+const GetItemAll = loadable(() => import('./pages/mypage/getItemAll'), {
+  fallback: <div>loading...</div>
+})
+const JjimItemAll = loadable(() => import('./pages/mypage/jjimItemAll'), {
+  fallback: <div>loading...</div>
+})
+const CertProfile = loadable(() => import('./pages/mypage/certProfile'), {
+  fallback: <div>loading...</div>
+})
+const EditProfile = loadable(() => import('./pages/mypage/certProfile/editProfile'), {
+  fallback: <div>loading...</div>
+})
+const Account = loadable(() => import('./pages/mypage/account'), {
+  fallback: <div>loading...</div>
+})
+const AddAccount = loadable(() => import('./pages/mypage/account/addAccount'), {
+  fallback: <div>loading...</div>
+})
+const BankName = loadable(() => import('./pages/mypage/account/banks'), {
+  fallback: <div>loading...</div>
+})
 //Access!!!!
-const Access = loadable(() => import('./pages/access'))
-const AgeSignUp = loadable(() => import('./pages/access/ageSignUp'))
-const SignUpForm = loadable(() => import('./pages/access/signUpForm'))
-const LogIn = loadable(() => import('./pages/access/logIn'))
-const LogOut = loadable(() => import('./pages/access/logOut'))
-const PasswordCheck = loadable(() => import('./pages/access/passwordCheck'))
-const PasswordChangeForm = loadable(() => import('./pages/access/passwordChangeForm'))
+const Access = loadable(() => import('./pages/access'), {
+  fallback: <div>loading...</div>
+})
+const AgeSignUp = loadable(() => import('./pages/access/ageSignUp'), {
+  fallback: <div>loading...</div>
+})
+const SignUpForm = loadable(() => import('./pages/access/signUpForm'), {
+  fallback: <div>loading...</div>
+})
+const LogIn = loadable(() => import('./pages/access/logIn'), {
+  fallback: <div>loading...</div>
+})
+const LogOut = loadable(() => import('./pages/access/logOut'), {
+  fallback: <div>loading...</div>
+})
+const PasswordCheck = loadable(() => import('./pages/access/passwordCheck'), {
+  fallback: <div>loading...</div>
+})
+const PasswordChangeForm = loadable(() => import('./pages/access/passwordChangeForm'), {
+  fallback: <div>loading...</div>
+})
 //Payment!!!!
-const Payment = loadable(() => import('./pages/payment'))
-const Agreement = loadable(() => import('./pages/payment/agreement'))
-const CheckInfo = loadable(() => import('./pages/payment/checkInfo'))
-const PayMethod = loadable(() => import('./pages/payment/payMethod'))
-const OrderComplete = loadable(() => import('./pages/payment/orderComplete'))
+const Payment = loadable(() => import('./pages/payment'), {
+  fallback: <div>loading...</div>
+})
+const Agreement = loadable(() => import('./pages/payment/agreement'), {
+  fallback: <div>loading...</div>
+})
+const CheckInfo = loadable(() => import('./pages/payment/checkInfo'), {
+  fallback: <div>loading...</div>
+})
+const PayMethod = loadable(() => import('./pages/payment/payMethod'), {
+  fallback: <div>loading...</div>
+})
+const OrderComplete = loadable(() => import('./pages/payment/orderComplete'), {
+  fallback: <div>loading...</div>
+})
 
 function App() {
   return (
