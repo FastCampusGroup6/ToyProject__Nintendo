@@ -10,3 +10,4 @@ export const getAuthenticatedUser = async (accessToken: string) => {
   })
   return response.data
 }
+

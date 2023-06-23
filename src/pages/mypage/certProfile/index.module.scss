@@ -66,7 +66,7 @@
           width: 95%;
           height: 20px;
           padding: 15px 20px;
-          border-radius: 10px; 
+          border-radius: 10px;
           border: solid 1px $bg-primary-grey;
           font-size: 1rem;
           &:focus {
@@ -74,9 +74,15 @@
             caret-color: $point-red;
           }
         }
+        .msg {
+          margin: 15px 0 0;
+          font-size: 0.8rem;
+          font-weight: 500;
+          color: $text-primary-black;          
+        }
         .error {
-          margin: 15px 0 40px;
-          font-size: .8rem;
+          margin: 15px 0 0;
+          font-size: 0.8rem;
           font-weight: 500;
           color: $point-red;
         }
@@ -84,7 +90,7 @@
           width: 100%;
           margin-top: 20px;
           padding: 15px 10px;
-          color:$text-light-white;
+          color: $text-light-white;
           text-align: center;
           border: none;
           border-radius: 10px;
@@ -93,6 +99,10 @@
           font-weight: 800;
           background-color: $point-red;
           cursor: pointer;
+        }
+        .btnTag.disabled {
+          background-color: $bg-primary-grey;
+          cursor:auto;
         }
       }
     }

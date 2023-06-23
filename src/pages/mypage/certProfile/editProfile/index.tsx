@@ -54,46 +54,40 @@ export default function EditProfile() {
   }
 
   // 닉네임 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangeDisplayName = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curDisplayName = e.target.value
-      setDisplayName(curDisplayName)
+  const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const curDisplayName = e.target.value
+    setDisplayName(curDisplayName)
 
-      if (!displayNameRegex.test(curDisplayName)) {
-        setDisplayNameMsg('닉네임이 올바르지 않습니다.')
-      } else {
-        setDisplayNameMsg('올바른 닉네임 형식입니다.')
-      }
-    },
-    [displayNameRegex]
-  )
-  // 비밀번호 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangePassword = 
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curPassword = e.target.value
-      setPassword(curPassword)
-
-      if (!passwordRegex.test(curPassword)) {
-        setPwdMsg('비밀번호가 올바르지 않습니다.')
-      } else {
-        setPwdMsg('안전한 비밀번호입니다.')
-      }
+    if (!displayNameRegex.test(curDisplayName)) {
+      setDisplayNameMsg('닉네임이 올바르지 않습니다.')
+    } else {
+      setDisplayNameMsg('올바른 닉네임 형식입니다.')
     }
+  }
 
   // 비밀번호 일치 여부 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangeConfirmPassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curConfirmPassword = e.target.value
-      setConfirmPassword(curConfirmPassword)
+  const onChangeConfirmPassword = (evevt: React.ChangeEvent<HTMLInputElement>) => {
+    const curConfirmPassword = evevt.target.value
+    setConfirmPassword(curConfirmPassword)
 
-      if (password !== curConfirmPassword) {
-        setConfirmPwdMsg('비밀번호가 일치하지 않습니다.')
-      } else {
-        setConfirmPwdMsg('올바른 비밀번호입니다.')
-      }
-    },
-    [password]
-  )
+    if (password !== curConfirmPassword) {
+      setConfirmPwdMsg('비밀번호가 일치하지 않습니다.')
+    } else {
+      setConfirmPwdMsg('비밀 번호 확인')
+    }
+  }
+
+  // // 비밀번호를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
+  // const onChangePassword = (evevt: React.ChangeEvent<HTMLInputElement>) => {
+  //   const curPassword = evevt.target.value
+  //   setPassword(curPassword)
+
+  //   if (!passwordRegex.test(curPassword)) {
+  //     setPwdMsg('비밀번호가 올바르지 않습니다.')
+  //   } else {
+  //     setPwdMsg('안전한 비밀번호입니다.')
+  //   }
+  // }
 
   //이미지 미리보기
   const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +100,7 @@ export default function EditProfile() {
         const base64 = reader.result
         if (base64) {
           const str = base64?.toString()
-          if (str && str.length > 1000000) {
+          if (str && str.length > 1048576) {
             alert('이미지는 1MB이하여야합니다!')
             return
           }
@@ -129,12 +123,12 @@ export default function EditProfile() {
     }
     // 비밀번호 유효성 검사
     if (!passwordRegex.test(password)) {
-      return <div>Password is not valid.</div>
+      return <div> 비밀번호가 유효하지 않습니다.</div>
     }
 
     // 비밀번호 일치 여부 검사
     if (password !== confirmPassword) {
-      return <div>비밀번호가 유효하지 않습니다.</div>
+      return <div>비밀번호가 일치하지 않습니다.</div>
     }
 
     // 모든 유효성 검사 통과

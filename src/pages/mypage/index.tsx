@@ -4,8 +4,13 @@ import Nav from '@/components/mypage/nav/Nav'
 import GetList from '@/components/mypage/productList/GetList'
 import JjimList from '@/components/mypage/productList/JjimList'
 import { Link } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import { userState } from '@/recoil/common/userState'
+
+// userInfo는 제가 맘대로 지정해놓은 것이고, 원하는 변수명으로 사용하시면 됩니다!
 
 export default function MyPage() {
+  const [userInfo, setUserInfo] = useRecoilState(userState)
   const [visible, setVisible] = useState(true)
   const handleVisible = () => {
     setVisible(!visible)
