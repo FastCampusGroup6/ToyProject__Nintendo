@@ -228,13 +228,13 @@ export default function PayMethod() {
               </div>
               <div className={styles.contents}>
                 <div className={styles.content}>
-                  <span>{orderPrice}</span>
+                  <span>{`₩ ${orderPrice.toLocaleString()}`}</span>
                 </div>
                 <div className={styles.content}>
                   <span>무료</span>
                 </div>
                 <div className={styles.content}>
-                  <span>{discountPrice}</span>
+                  <span>{`₩ ${discountPrice.toLocaleString()}`}</span>
                 </div>
               </div>
             </div>
@@ -243,7 +243,7 @@ export default function PayMethod() {
                 <span>최종 결제 금액</span>
               </div>
               <div className={styles.price}>
-                <span>{orderFinalPrice}</span>
+                <span>{`₩ ${orderFinalPrice.toLocaleString()}`}</span>
               </div>
             </div>
           </div>
