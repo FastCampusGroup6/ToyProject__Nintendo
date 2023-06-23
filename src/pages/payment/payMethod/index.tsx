@@ -15,17 +15,12 @@ import { postBuyProduct } from '@/apis/payment/product'
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/recoil/common/userState'
 
-//사용되는 api
-// 1. 계좌 조회
-// 3.제품거래(구매) 신청
-// 4. 선택가능한 은행 목록 조회
-
 // todo
 // 1. 총 계산금액 (할인율 포함) - 주문 금액, 할인율, 최종 결제 금액 표기 ✅
 // 2. 새로고침 시 모달 초기화 ✅
 // 3. 모달 계좌 연결 정보 입력 (정규식) ✅
-// 4. 계좌 데이터 연결(중요) -아아아아아
-// 5. api 불러와서 연동
+// 4. 계좌 데이터 연결(중요) ✅
+// 5. api 불러와서 연동 ✅
 
 export default function PayMethod() {
   const [connectedAccounts, setConnectedAccounts] = useState<AccountsBalance>({
@@ -138,6 +133,7 @@ export default function PayMethod() {
       // 수행할 로직
       try {
         const bankConnectRes = await postConnectAccount(accessToken, BankConnectData)
+        alert('계좌 등록이 완료되었습니다!')
         console.log(bankConnectRes)
         const bankConnectId = bankConnectRes.id
         // for (let i = 0; i < userCart.length; i++) {
@@ -148,7 +144,8 @@ export default function PayMethod() {
         const buyPromises = userCart.map((item) =>
           postBuyProduct(accessToken, { productId: item.id, accountId: bankConnectId })
         )
-        const buyRes = await Promise.all(buyPromises)
+        await Promise.all(buyPromises)
+        alert('결제 완료되었습니다! 결제 완료 페이지로 이동합니다.')
         navigate(`/payment/${user.displayName}/orderComplete`)
       } catch (error) {
         console.error(error)
@@ -167,7 +164,8 @@ export default function PayMethod() {
           })
         }
       })
-      const buyRes = await Promise.all(buyPromises)
+      await Promise.all(buyPromises)
+      alert('결제 완료되었습니다! 결제 완료 페이지로 이동합니다.')
       navigate(`/payment/${user.displayName}/orderComplete`)
     } catch (error) {
       console.error(error)
