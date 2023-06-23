@@ -18,7 +18,7 @@ export interface AccountsBalance {
   accounts: Bank[]
 }
 
-interface Bank {
+export interface Bank {
   // 사용자 계좌 정보
   id: string // 계좌 ID
   bankName: string // 은행 이름

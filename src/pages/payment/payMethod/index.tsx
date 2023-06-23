@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import ConnectedBank from '@/components/payment/payMethod/ConnectedBank'
-import dummyAccounts from '@/pages/payment/dummyAccounts.json'
 import { AccountsBalance } from '@/types/account'
 import { useNavigate } from 'react-router-dom'
 import Modal from '@/components/common/Modal'
-import dummyAccountsList from '@/pages/payment/dummyAccountsList.json'
-import { Banks, AccountConnectionRequest } from '@/types/account'
+import { Bank, Banks, AccountConnectionRequest } from '@/types/account'
 import PossibleBank from '@/components/payment/payMethod/PossibleBank'
 import BankConnect from '@/components/payment/payMethod/BankConnect'
 import { Product } from '@/types/product'
 import { UserCart, UserCartItem } from '@/types/usercart'
 import { getSelectableAccounts, getConnectedAccounts, postConnectAccount } from '@/apis/payment/account'
 import { postBuyProduct } from '@/apis/payment/product'
+import { useRecoilValue } from 'recoil'
+import { userState } from '@/recoil/common/userState'
 
 //사용되는 api
 // 1. 계좌 조회
@@ -28,8 +28,12 @@ import { postBuyProduct } from '@/apis/payment/product'
 // 5. api 불러와서 연동
 
 export default function PayMethod() {
-  const { accounts }: AccountsBalance = dummyAccounts // api/account/getConnectedAccounts
-  const accountsList: Banks = dummyAccountsList // api/account/getSelectableAccounts
+  const [connectedAccounts, setConnectedAccounts] = useState<AccountsBalance>({
+    totalBalance: 0,
+    accounts: []
+  })
+  const [possibleAccounts, setPossibleAccounts] = useState<Banks>([])
+  const user = useRecoilValue(userState)
   const [isOpen, setIsOpen] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
@@ -45,12 +49,18 @@ export default function PayMethod() {
   })
 
   //cartItems 할인 계산
-  const cartItems = JSON.parse(localStorage.getItem('cart') || '[]')
-  const orderPrice = cartItems.map((item: Product) => item.price).reduce((acc: number, cur: number) => acc + cur, 0)
-  const orderFinalPrice = cartItems
+  const userCart: UserCart = JSON.parse(localStorage.getItem('cart') || '[]')
+  const matchedUserCart = userCart.filter((item: UserCartItem) => item.email === user.email)
+  const orderPrice = matchedUserCart
+    .map((item: Product) => item.price)
+    .reduce((acc: number, cur: number) => acc + cur, 0)
+  const orderFinalPrice = matchedUserCart
     .map((item: Product) => item.price - (item.price * item.discountRate) / 100)
     .reduce((acc: number, cur: number) => acc + cur, 0)
   const discountPrice = orderPrice - orderFinalPrice
+
+  //accessToken 가져오기
+  const accessToken = localStorage.getItem('token') || ''
 
   useEffect(() => {
     setIsOpen(false)
@@ -59,25 +69,43 @@ export default function PayMethod() {
     setNextModal(false)
     setBankIndex(0)
   }, [])
-  //필요없음
+
   // 계좌 조회 버튼 핸들러
-  const handleAccountsOpen = () => {
+  const handleAccountsOpen = async () => {
     setIsOpen(!isOpen)
     setIsClicked(false)
     setActiveIndex(null)
+    //1. 게좌 조회 버튼을 처음 눌렀을 때만 getSelectableAAccounts fetch
+    //2. 이후 클릭해서 해당 창이 열렸을 때는, connectedAccounts에 저장된 값을 불러오기.
+    if (connectedAccounts.accounts.length === 0) {
+      try {
+        const res = await getConnectedAccounts(accessToken)
+        setConnectedAccounts(res)
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
-  //필요없음
+
   // 선택계좌 결제하기 버튼 생성 핸들러
   const handleBankOnClick = (index: number) => {
     setIsClicked(true)
     setActiveIndex(index)
   }
-  //필요없음
+
   //모달버튼열기 핸들러
-  const handleModalOpen = () => {
+  const handleModalOpen = async () => {
     setIsModalOpen(true)
+    if (possibleAccounts.length === 0) {
+      try {
+        const res = await getSelectableAccounts(accessToken)
+        setPossibleAccounts(res)
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
-  //필요없음
+
   // 모달 닫기 핸들러
   const handleModalClose = () => {
     setIsModalOpen(false)
@@ -101,7 +129,7 @@ export default function PayMethod() {
       alert('올바른 전화번호를 입력해주세요!')
     } else {
       // 수행할 로직
-      navigate('/payment/:username/orderComplete')
+      navigate(`/payment/${user.displayName}/orderComplete`)
     }
     // api 은행 계좌 등록 요청. function(BankConnectData)
     // 요청 완료 시 api 거래 신청 요청. accountId, productId 만 있으면 됨. function(BankConnectData.accountNumber, )
@@ -115,10 +143,10 @@ export default function PayMethod() {
   const handleSelectedBankOrder = () => {
     // api 거래 신청 요청.
     // 완료시 navigate('/payment/:username/orderComplete')
-    navigate('/payment/:username/orderComplete')
+    navigate(`/payment/${user.displayName}/orderComplete`)
   }
 
-  const selectedAccount = accountsList[bankIndex]
+  const selectedAccount = possibleAccounts[bankIndex]
 
   return (
     <>
@@ -127,19 +155,28 @@ export default function PayMethod() {
         {isOpen && (
           <div className={styles.bankSelect}>
             <div className={styles.banks}>
-              <div className={styles.title}>결제할 계좌를 선택해주세요!</div>
-              <div className={styles.bankContainer}>
-                {accounts.map((account, index) => (
-                  <ConnectedBank
-                    key={index}
-                    bankName={account.bankName}
-                    accountNumber={account.accountNumber}
-                    balance={account.balance}
-                    handleOnClick={() => handleBankOnClick(index)}
-                    isActive={index === activeIndex}
-                  />
-                ))}
-              </div>
+              {connectedAccounts.accounts.length !== 0 ? (
+                <>
+                  <div className={styles.title}>결제할 계좌를 선택해주세요!</div>
+                  <div className={styles.bankContainer}>
+                    {connectedAccounts?.accounts.map((account, index) => (
+                      <ConnectedBank
+                        key={index}
+                        bankName={account.bankName}
+                        accountNumber={account.accountNumber}
+                        balance={account.balance}
+                        handleOnClick={() => handleBankOnClick(index)}
+                        isActive={index === activeIndex}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>연결된 계좌가 없습니다!</div>
+                  <div>간편 결제를 이용해주세요.</div>
+                </>
+              )}
             </div>
             {isClicked && (
               <button className={styles.btn} onClick={handleSelectedBankOrder}>
@@ -204,7 +241,7 @@ export default function PayMethod() {
           <div className={styles.accountListContainer}>
             <div className={styles.title}>계좌 등록</div>
             <div className={styles.accountLists}>
-              {accountsList
+              {possibleAccounts
                 .filter((account) => !account.disabled)
                 .map((account, index) => (
                   <PossibleBank
@@ -219,7 +256,7 @@ export default function PayMethod() {
                   //3. account의 몇번째 index를 눌렀느냐에 따라 받아오는 정보가 달라짐.
                   //3-1. filter한 accountsList배열에서 index를 찾아야 함.
                   //4. onclick이벤트에 해당 배열의 index를 저장.
-                  //4-1. accountList 배열에서 index값을 가져오기?
+                  //4-1. accountList 배열에서 index값을 가져오기
                 ))}
             </div>
             <div className={styles.subs}> 등록할 계좌를 선택해주세요!</div>
