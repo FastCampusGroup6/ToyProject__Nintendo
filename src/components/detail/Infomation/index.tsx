@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
 import { ProductDetail } from '@/types/product'
-import api from '@/apis'
 import { useNavigate } from 'react-router-dom'
 import { User } from '@/types/user'
+import { getAuthenticatedUser } from '@/apis/payment/access'
 
 type Props = {
   product: ProductDetail
@@ -13,7 +13,7 @@ export default function Infomation({ product }: Props) {
   const [checked, setChecked] = useState(false)
   const price = product.price?.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
 
-  function setCheck() {
+  function setCheckBox() {
     setChecked(!checked)
   }
 
@@ -23,22 +23,18 @@ export default function Infomation({ product }: Props) {
       alert('로그인이 필요합니다.')
       return
     }
-    const response = await api('https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-    const user: User = response.data
+    const user: User = await getAuthenticatedUser(accessToken)
 
     if (!user) {
       alert('유저 정보를 찾을 수 없습니다.')
       return
     }
+
     const userCart = {
       ...user,
       ...product
     }
+    // todo : getLocalItem, setLocalItem으로 빼기
     const cartItems = localStorage.getItem('cart')
     const prevUserCart = cartItems ? JSON.parse(cartItems) : null
     if (!prevUserCart) {
@@ -55,8 +51,8 @@ export default function Infomation({ product }: Props) {
         <div className={styles.price}>{price}</div>
       </div>
       <div className={styles.contactCover}>
-        <input className={styles.checkbox} type="checkbox" defaultChecked={checked} onChange={setCheck} />
-        <ul onClick={setCheck}>
+        <input className={styles.checkbox} type="checkbox" defaultChecked={checked} onChange={setCheckBox} />
+        <ul onClick={setCheckBox}>
           <li>
             <span>
               <span className={styles.underline}>다운로드 구입</span>에 관한 주의 사항을 확인했습니다. (다운로드 상품은

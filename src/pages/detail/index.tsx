@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-
 import { useRecoilState } from 'recoil'
 import { productState } from '@/recoil/detail/productState'
 
 import { getProduct } from '@/apis/detail'
-import ProductDetailPage from '@/components/detail/ProductDetailPage'
-
+import MediaContainer from '@/components/detail/MediaContainer'
+import Infomation from '@/components/detail/Infomation'
 import styles from './index.module.scss'
 
 export default function Detail() {
   const location = useLocation()
-
   const [product, setProduct] = useRecoilState(productState)
 
   useEffect(() => {
@@ -22,5 +20,15 @@ export default function Detail() {
     })
   }, [])
 
-  return <main className={styles.container}>{!product.id ? <div>loading ...</div> : <ProductDetailPage />}</main>
+  // todo : not found, loading 컴포넌트 추가하기
+  if (!product.id) {
+    return <div>Loading ...</div>
+  }
+
+  return (
+    <main className={styles.container}>
+      <MediaContainer product={product} />
+      <Infomation product={product} />
+    </main>
+  )
 }

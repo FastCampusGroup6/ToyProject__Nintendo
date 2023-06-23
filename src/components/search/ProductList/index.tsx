@@ -12,6 +12,7 @@ export default function ProductList() {
   const filterdProductsState = useRecoilValue(filteredProductState)
   const [filteredProducts, setFilteredProducts] = useState<SearchProductsResponse>(filterdProductsState)
 
+  // * 검색 쿼리가 변경되면 filterdProductsState를 filteredProducts에 저장합니다.
   useEffect(() => {
     setFilteredProducts(() => [...filterdProductsState])
   }, [searchQuery])

@@ -24,7 +24,7 @@ export default function Notice() {
           불가능합니다. 단, 예외 상품이 있으므로 각 상품의 상세 내용을 반드시 확인해 주시기 바랍니다.
         </li>
         <p>
-          상담 및 문의처
+          상담 및 문의처{' '}
           <a href="https://support.nintendo.co.kr/information">https://support.nintendo.co.kr/information</a>
         </p>
       </ul>

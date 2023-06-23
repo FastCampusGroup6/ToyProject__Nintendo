@@ -1,38 +1,39 @@
 import React from 'react'
+import loadable from '@loadable/component'
 import './App.scss'
 import Home from './pages/home'
 import { Route, Routes } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
-import AccessLayout from './layouts/AccessLayout'
-import MyPageLayout from './layouts/MypageLayout'
-import PaymentLayout from './layouts/PaymentLayout'
+const MainLayout = loadable(() => import('./layouts/MainLayout'))
+const AccessLayout = loadable(() => import('./layouts/AccessLayout'))
+const MyPageLayout = loadable(() => import('./layouts/MypageLayout'))
+const PaymentLayout = loadable(() => import('./layouts/PaymentLayout'))
 
 //Main!!!!
-import Search from './pages/search'
-import Detail from './pages/detail'
+const Search = loadable(() => import('./pages/search'))
+const Detail = loadable(() => import('./pages/detail'))
 //MyPage!!!!
-import MyPage from './pages/mypage'
-import GetItemAll from './pages/mypage/getItemAll'
-import JjimItemAll from './pages/mypage/jjimItemAll'
-import CertProfile from './pages/mypage/certProfile'
-import EditProfile from './pages/mypage/certProfile/editProfile'
-import Account from './pages/mypage/account'
-import AddAccount from './pages/mypage/account/addAccount'
-import BankName from './pages/mypage/account/banks'
+const MyPage = loadable(() => import('./pages/mypage'))
+const GetItemAll = loadable(() => import('./pages/mypage/getItemAll'))
+const JjimItemAll = loadable(() => import('./pages/mypage/jjimItemAll'))
+const CertProfile = loadable(() => import('./pages/mypage/certProfile'))
+const EditProfile = loadable(() => import('./pages/mypage/certProfile/editProfile'))
+const Account = loadable(() => import('./pages/mypage/account'))
+const AddAccount = loadable(() => import('./pages/mypage/account/addAccount'))
+const BankName = loadable(() => import('./pages/mypage/account/banks'))
 //Access!!!!
-import Access from './pages/access'
-import AgeSignUp from './pages/access/ageSignUp'
-import SignUpForm from './pages/access/signUpForm'
-import LogIn from './pages/access/logIn'
-import LogOut from './pages/access/logOut'
-import PasswordCheck from './pages/access/passwordCheck'
-import PasswordChangeForm from './pages/access/passwordChangeForm'
+const Access = loadable(() => import('./pages/access'))
+const AgeSignUp = loadable(() => import('./pages/access/ageSignUp'))
+const SignUpForm = loadable(() => import('./pages/access/signUpForm'))
+const LogIn = loadable(() => import('./pages/access/logIn'))
+const LogOut = loadable(() => import('./pages/access/logOut'))
+const PasswordCheck = loadable(() => import('./pages/access/passwordCheck'))
+const PasswordChangeForm = loadable(() => import('./pages/access/passwordChangeForm'))
 //Payment!!!!
-import Payment from './pages/payment'
-import Agreement from './pages/payment/agreement'
-import CheckInfo from './pages/payment/checkInfo'
-import PayMethod from './pages/payment/payMethod'
-import OrderComplete from './pages/payment/orderComplete'
+const Payment = loadable(() => import('./pages/payment'))
+const Agreement = loadable(() => import('./pages/payment/agreement'))
+const CheckInfo = loadable(() => import('./pages/payment/checkInfo'))
+const PayMethod = loadable(() => import('./pages/payment/payMethod'))
+const OrderComplete = loadable(() => import('./pages/payment/orderComplete'))
 
 function App() {
   return (

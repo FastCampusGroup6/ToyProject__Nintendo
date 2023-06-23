@@ -1,13 +1,13 @@
-import { SearchProductsResponse } from '@/types/product'
 import React from 'react'
-
-import styles from './index.module.scss'
 import { Link } from 'react-router-dom'
+import { SearchProductsResponse } from '@/types/product'
+import styles from './index.module.scss'
 
 type Props = {
   product: SearchProductsResponse[0]
 }
 export default function Product({ product }: Props) {
+  const price = product.price?.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
   return (
     <li className={styles.item}>
       <Link to={`/detail/${product.id}`}>
@@ -22,7 +22,7 @@ export default function Product({ product }: Props) {
               </span>
             ))}
           </p>
-          <p className={styles.price}>{`₩${product.price}`}</p>
+          <p className={styles.price}>{price}</p>
         </div>
         <p className={styles.itemTitle}>{product.title}</p>
       </Link>

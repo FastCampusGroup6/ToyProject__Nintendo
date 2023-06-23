@@ -1,18 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { useRecoilValue } from 'recoil'
+import { searchQueryState } from '@/recoil/search/queryStringState'
+import { generateQueryString } from '@/utils/search'
 import { ProductDetail } from '@/types/product'
-import Notice from '../Notice'
+import Notice from '@/components/detail/Notice'
 import styles from './index.module.scss'
 
 type Props = {
   product: ProductDetail
 }
 export default function MediaContainer({ product }: Props) {
+  const query = useRecoilValue(searchQueryState)
+
   return (
     <div className={styles.container}>
       <div className={styles.backBtnCover}>
-        <Link to="/search" className={styles.backBtn}>
+        <Link to={`/search?${generateQueryString(query)}`} className={styles.backBtn}>
           {'< 리스트로 돌아가기'}
         </Link>
       </div>
@@ -26,7 +30,7 @@ export default function MediaContainer({ product }: Props) {
       {product.description === 'no description' ? (
         <></>
       ) : (
-        <div id="product" dangerouslySetInnerHTML={{ __html: product.description }} />
+        <div className={styles.description} dangerouslySetInnerHTML={{ __html: product.description }} />
       )}
       <Notice />
     </div>
