@@ -55,13 +55,7 @@ export default function Infomation({ product }: Props) {
         <div className={styles.price}>{price}</div>
       </div>
       <div className={styles.contactCover}>
-        <input
-          className={styles.checkbox}
-          type="checkbox"
-          defaultChecked={checked}
-          checked={checked}
-          onClick={setCheck}
-        />
+        <input className={styles.checkbox} type="checkbox" defaultChecked={checked} onChange={setCheck} />
         <ul onClick={setCheck}>
           <li>
             <span>
