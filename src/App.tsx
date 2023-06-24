@@ -3,6 +3,7 @@ import loadable from '@loadable/component'
 import './App.scss'
 import Home from './pages/home'
 import { Route, Routes } from 'react-router-dom'
+import PaymentLoading from '@/components/payment/Loading'
 const MainLayout = loadable(() => import('./layouts/MainLayout'), {
   fallback: <div>loading...</div>
 })
@@ -72,19 +73,19 @@ const PasswordChangeForm = loadable(() => import('./pages/access/passwordChangeF
 })
 //Payment!!!!
 const Payment = loadable(() => import('./pages/payment'), {
-  fallback: <div>loading...</div>
+  fallback: <PaymentLoading color="#666666" />
 })
 const Agreement = loadable(() => import('./pages/payment/agreement'), {
-  fallback: <div>loading...</div>
+  fallback: <PaymentLoading color="#666666" />
 })
 const CheckInfo = loadable(() => import('./pages/payment/checkInfo'), {
-  fallback: <div>loading...</div>
+  fallback: <PaymentLoading color="#666666" />
 })
 const PayMethod = loadable(() => import('./pages/payment/payMethod'), {
-  fallback: <div>loading...</div>
+  fallback: <PaymentLoading color="#666666" />
 })
 const OrderComplete = loadable(() => import('./pages/payment/orderComplete'), {
-  fallback: <div>loading...</div>
+  fallback: <PaymentLoading color="#666666" />
 })
 
 function App() {

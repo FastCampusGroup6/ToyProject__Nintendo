@@ -14,6 +14,7 @@ import { getSelectableAccounts, getConnectedAccounts, postConnectAccount } from 
 import { postBuyProduct } from '@/apis/payment/product'
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/recoil/common/userState'
+import Loading from '@/components/payment/Loading'
 
 // todo
 // 1. 총 계산금액 (할인율 포함) - 주문 금액, 할인율, 최종 결제 금액 표기 ✅
@@ -42,6 +43,11 @@ export default function PayMethod() {
     phoneNumber: '',
     signature: true
   })
+  // 로딩?
+  // 로딩이 어디 들어가야하나?
+  // 1. 계좌 조회 버튼 클릭 시 api 비동기 호출 할때.
+  // 2. 간편 결제 버튼 클릭 시 api 비동기 호출 할 때.
+  const [isLoading, setIsLoading] = useState(false)
 
   //cartItems 할인 계산
   const userCart: UserCart = JSON.parse(localStorage.getItem('cart') || '[]')
@@ -76,8 +82,12 @@ export default function PayMethod() {
     //2. 이후 클릭해서 해당 창이 열렸을 때는, connectedAccounts에 저장된 값을 불러오기.
     if (connectedAccounts.accounts.length === 0) {
       try {
+        setIsLoading(true)
+        console.log('로딩중..')
         const res = await getConnectedAccounts(accessToken)
         setConnectedAccounts(res)
+        setIsLoading(false)
+        console.log('로딩 완료')
       } catch (error) {
         console.error(error)
       }
@@ -95,8 +105,12 @@ export default function PayMethod() {
     setIsModalOpen(true)
     if (possibleAccounts.length === 0) {
       try {
+        setIsLoading(true)
+        console.log('로딩중..')
         const res = await getSelectableAccounts(accessToken)
         setPossibleAccounts(res)
+        setIsLoading(false)
+        console.log('로딩 완료')
       } catch (error) {
         console.error(error)
       }
@@ -132,6 +146,7 @@ export default function PayMethod() {
     } else {
       // 수행할 로직
       try {
+        setIsLoading(true)
         const bankConnectRes = await postConnectAccount(accessToken, BankConnectData)
         alert('계좌 등록이 완료되었습니다!')
         console.log(bankConnectRes)
@@ -146,6 +161,8 @@ export default function PayMethod() {
         )
         await Promise.all(buyPromises)
         alert('결제 완료되었습니다! 결제 완료 페이지로 이동합니다.')
+        setIsLoading(false)
+        console.log('로딩 완료')
         navigate(`/payment/${user.displayName}/orderComplete`)
       } catch (error) {
         console.error(error)
@@ -156,6 +173,7 @@ export default function PayMethod() {
   const handleSelectedBankOrder = async () => {
     // api 거래 신청 요청.
     try {
+      setIsLoading(true)
       const buyPromises = userCart.map((item) => {
         if (activeIndex) {
           postBuyProduct(accessToken, {
@@ -166,6 +184,7 @@ export default function PayMethod() {
       })
       await Promise.all(buyPromises)
       alert('결제 완료되었습니다! 결제 완료 페이지로 이동합니다.')
+      setIsLoading(false)
       navigate(`/payment/${user.displayName}/orderComplete`)
     } catch (error) {
       console.error(error)
@@ -178,30 +197,34 @@ export default function PayMethod() {
       <div className={styles.inner}>
         {isOpen && (
           <div className={styles.bankSelect}>
-            <div className={styles.banks}>
-              {connectedAccounts.accounts.length !== 0 ? (
-                <>
-                  <div className={styles.title}>결제할 계좌를 선택해주세요!</div>
-                  <div className={styles.bankContainer}>
-                    {connectedAccounts.accounts.map((account, index) => (
-                      <ConnectedBank
-                        key={index}
-                        bankName={account.bankName}
-                        accountNumber={account.accountNumber}
-                        balance={account.balance}
-                        handleOnClick={() => handleBankOnClick(index)}
-                        isActive={index === activeIndex}
-                      />
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>연결된 계좌가 없습니다!</div>
-                  <div>간편 결제를 이용해주세요.</div>
-                </>
-              )}
-            </div>
+            {isLoading ? (
+              <Loading color="#e60112" />
+            ) : (
+              <div className={styles.banks}>
+                {connectedAccounts.accounts.length !== 0 ? (
+                  <>
+                    <div className={styles.title}>결제할 계좌를 선택해주세요!</div>
+                    <div className={styles.bankContainer}>
+                      {connectedAccounts.accounts.map((account, index) => (
+                        <ConnectedBank
+                          key={index}
+                          bankName={account.bankName}
+                          accountNumber={account.accountNumber}
+                          balance={account.balance}
+                          handleOnClick={() => handleBankOnClick(index)}
+                          isActive={index === activeIndex}
+                        />
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>연결된 계좌가 없습니다!</div>
+                    <div>간편 결제를 이용해주세요.</div>
+                  </>
+                )}
+              </div>
+            )}
             {isClicked && (
               <button className={styles.btn} onClick={handleSelectedBankOrder}>
                 선택 계좌로 결제하기
@@ -264,25 +287,29 @@ export default function PayMethod() {
         {!nextModal && (
           <div className={styles.accountListContainer}>
             <div className={styles.title}>계좌 등록</div>
-            <div className={styles.accountLists}>
-              {possibleAccounts
-                .filter((account) => !account.disabled)
-                .map((account, index) => (
-                  <PossibleBank
-                    key={index}
-                    bankName={account.name}
-                    onClick={() => {
-                      handleNextModal(index)
-                    }}
-                  />
-                  //1. possibleBank를 click했을 때 해당 은행의 정보를 BankConnect에서 사용할 수 있어야 함.
-                  //2. 필요한 정보는 account.name, account.code, account.digit
-                  //3. account의 몇번째 index를 눌렀느냐에 따라 받아오는 정보가 달라짐.
-                  //3-1. filter한 accountsList배열에서 index를 찾아야 함.
-                  //4. onclick이벤트에 해당 배열의 index를 저장.
-                  //4-1. accountList 배열에서 index값을 가져오기
-                ))}
-            </div>
+            {isLoading ? (
+              <Loading color="#ff7c00" />
+            ) : (
+              <div className={styles.accountLists}>
+                {possibleAccounts
+                  .filter((account) => !account.disabled)
+                  .map((account, index) => (
+                    <PossibleBank
+                      key={index}
+                      bankName={account.name}
+                      onClick={() => {
+                        handleNextModal(index)
+                      }}
+                    />
+                    //1. possibleBank를 click했을 때 해당 은행의 정보를 BankConnect에서 사용할 수 있어야 함.
+                    //2. 필요한 정보는 account.name, account.code, account.digit
+                    //3. account의 몇번째 index를 눌렀느냐에 따라 받아오는 정보가 달라짐.
+                    //3-1. filter한 accountsList배열에서 index를 찾아야 함.
+                    //4. onclick이벤트에 해당 배열의 index를 저장.
+                    //4-1. accountList 배열에서 index값을 가져오기
+                  ))}
+              </div>
+            )}
             <div className={styles.subs}> 등록할 계좌를 선택해주세요!</div>
           </div>
         )}
@@ -293,6 +320,7 @@ export default function PayMethod() {
               bankCode={selectedAccount.code}
               bankDigits={selectedAccount.digits}
               handleBankConnectData={handleBankConnectData}
+              isLoading={isLoading}
             />
             <button className={styles.btn} onClick={handleBankConnectOrder}>
               계좌 등록 후 바로 결제하기
