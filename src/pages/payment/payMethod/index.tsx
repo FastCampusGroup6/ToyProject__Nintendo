@@ -43,10 +43,7 @@ export default function PayMethod() {
     phoneNumber: '',
     signature: true
   })
-  // 로딩?
-  // 로딩이 어디 들어가야하나?
-  // 1. 계좌 조회 버튼 클릭 시 api 비동기 호출 할때.
-  // 2. 간편 결제 버튼 클릭 시 api 비동기 호출 할 때.
+
   const [isLoading, setIsLoading] = useState(false)
 
   //cartItems 할인 계산

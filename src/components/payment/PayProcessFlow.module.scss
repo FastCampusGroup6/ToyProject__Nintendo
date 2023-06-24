@@ -9,7 +9,7 @@
     border-radius: 50%;
     border: 3px solid $bg-primary-grey;
     background-color: $bg-primary-white;
-    margin: 50px;
+    margin: 20px;
     width: 150px;
     height: 150px;
     display: flex;
@@ -20,7 +20,12 @@
       font-size: 24px;
       font-weight: 700;
     }
+    @media (max-width: 1400px) {
+      min-width: 100px;
+      min-height: 100px;
+    }
   }
+
   .isActive {
     background-color: $point-red;
     border: 3px solid $point-red;
