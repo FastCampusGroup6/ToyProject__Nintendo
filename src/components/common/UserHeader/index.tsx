@@ -30,7 +30,6 @@ export default function UserHeader() {
     if (isLogined) {
       try {
         const userData = await getAuthenticatedUser(accessToken)
-        console.log(userData)
         return setUserInfo(userData)
       } catch (error) {
         console.error(error, 'fetchUserInfo 오류1')

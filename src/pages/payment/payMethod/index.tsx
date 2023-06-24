@@ -83,11 +83,9 @@ export default function PayMethod() {
     if (connectedAccounts.accounts.length === 0) {
       try {
         setIsLoading(true)
-        console.log('로딩중..')
         const res = await getConnectedAccounts(accessToken)
         setConnectedAccounts(res)
         setIsLoading(false)
-        console.log('로딩 완료')
       } catch (error) {
         console.error(error)
       }
@@ -106,11 +104,9 @@ export default function PayMethod() {
     if (possibleAccounts.length === 0) {
       try {
         setIsLoading(true)
-        console.log('로딩중..')
         const res = await getSelectableAccounts(accessToken)
         setPossibleAccounts(res)
         setIsLoading(false)
-        console.log('로딩 완료')
       } catch (error) {
         console.error(error)
       }
@@ -149,11 +145,9 @@ export default function PayMethod() {
         setIsLoading(true)
         const bankConnectRes = await postConnectAccount(accessToken, BankConnectData)
         alert('계좌 등록이 완료되었습니다!')
-        console.log(bankConnectRes)
         const bankConnectId = bankConnectRes.id
         // for (let i = 0; i < userCart.length; i++) {
         //   const buyRes = await postBuyProduct(accessToken, { productId: userCart[i].id, accountId: bankConnectId })
-        //   console.log(buyRes)
         // }
         // Promise.all() 사용
         const buyPromises = userCart.map((item) =>
@@ -162,7 +156,6 @@ export default function PayMethod() {
         await Promise.all(buyPromises)
         alert('결제 완료되었습니다! 결제 완료 페이지로 이동합니다.')
         setIsLoading(false)
-        console.log('로딩 완료')
         navigate(`/payment/${user.displayName}/orderComplete`)
       } catch (error) {
         console.error(error)

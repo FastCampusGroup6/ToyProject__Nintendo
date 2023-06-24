@@ -25,7 +25,6 @@ export default function OrderComplete() {
     matchedTransactionDetails()
     // 장바구니에 담겨있던 제품들을 삭제
     localStorage.removeItem('cart')
-    console.log('장바구니 물건 삭제됨')
   }, [])
 
   const matchedTransactionDetails = async (): Promise<void> => {
