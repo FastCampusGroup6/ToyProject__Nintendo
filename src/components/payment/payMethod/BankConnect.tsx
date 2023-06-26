@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import styles from './BankConnect.module.scss'
-import { getBankLogo } from './PossibleBank'
+import getBankLogo from '@/utils/getBankLogo'
 import { AccountConnectionRequest } from '@/types/account'
 import Loading from '@/components/payment/Loading'
+import { ACCOUNT_NUMBER_REGEX, PHONE_NUMBER_REGEX, PHONE_NUMBER_FORMAT_REGEX } from '@/utils/constants'
 
 interface Props {
   bankName: string
@@ -21,7 +22,7 @@ export default function BankConnection({ bankName, bankCode, bankDigits, handleB
   const handleAccountNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     // 입력된 숫자만 추출하여 문자열 생성
-    const inputDigits = value.replace(/[^0-9]/g, '')
+    const inputDigits = value.replace(ACCOUNT_NUMBER_REGEX, '')
     let formattedValue = ''
     let currentIndex = 0
 
@@ -44,9 +45,9 @@ export default function BankConnection({ bankName, bankCode, bankDigits, handleB
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     // 입력된 숫자만 추출하여 문자열 생성
-    const inputDigits = value.replace(/[^0-9]/g, '')
+    const inputDigits = value.replace(PHONE_NUMBER_REGEX, '')
     // 정규표현식을 사용하여 포맷팅
-    const formattedValue = inputDigits.slice(0, 11).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+    const formattedValue = inputDigits.slice(0, 11).replace(PHONE_NUMBER_FORMAT_REGEX, '$1-$2-$3')
     setPhoneNumber(formattedValue)
   }
 

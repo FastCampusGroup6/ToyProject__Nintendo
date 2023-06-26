@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './SelectAccount.module.scss'
-import { getBankLogo } from '@/components/payment/payMethod/PossibleBank'
+import getBankLogo from '@/utils/getBankLogo'
 // import AccountBtn from '@/components/common/AccountBtn'
 
 // 이 파일에 버튼 클릭 이벤트 사용 + 모달창 띄우기

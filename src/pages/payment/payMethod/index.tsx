@@ -17,13 +17,6 @@ import { userState } from '@/recoil/common/userState'
 import Loading from '@/components/payment/Loading'
 import { matchedUserCartState } from '@/recoil/common/matchedUserCartState'
 
-// todo
-// 1. 총 계산금액 (할인율 포함) - 주문 금액, 할인율, 최종 결제 금액 표기 ✅
-// 2. 새로고침 시 모달 초기화 ✅
-// 3. 모달 계좌 연결 정보 입력 (정규식) ✅
-// 4. 계좌 데이터 연결(중요) ✅
-// 5. api 불러와서 연동 ✅
-
 export default function PayMethod() {
   const [connectedAccounts, setConnectedAccounts] = useState<AccountsBalance>({
     totalBalance: 0,
@@ -282,12 +275,6 @@ export default function PayMethod() {
                         handleNextModal(index)
                       }}
                     />
-                    //1. possibleBank를 click했을 때 해당 은행의 정보를 BankConnect에서 사용할 수 있어야 함.
-                    //2. 필요한 정보는 account.name, account.code, account.digit
-                    //3. account의 몇번째 index를 눌렀느냐에 따라 받아오는 정보가 달라짐.
-                    //3-1. filter한 accountsList배열에서 index를 찾아야 함.
-                    //4. onclick이벤트에 해당 배열의 index를 저장.
-                    //4-1. accountList 배열에서 index값을 가져오기
                   ))}
               </div>
             )}

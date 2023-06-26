@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './ConnectedBank.module.scss'
-import { getBankLogo } from './PossibleBank'
+import getBankLogo from '@/utils/getBankLogo'
 
 interface BankProps {
   bankName: string

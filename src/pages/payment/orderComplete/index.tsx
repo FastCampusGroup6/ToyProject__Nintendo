@@ -9,13 +9,6 @@ import Loading from '@/components/payment/Loading'
 export default function OrderComplete() {
   const [transactionDetails, setTransactionDetails] = useState<UserTransactionDetails>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  //1. 장바구니에 있던 제품을 받아와야하나?
-  //2. 제품 전체 거래(구매) 내역 api 호출
-  //3. 장바구니에 있는 제품이랑 비교
-  //4. productId가 일치하는 제품 찾기
-  //5. 그 제품의 detailId, title 가져오기(string)
-  //이후 장바구니에 담겨있던 제품들을 삭제해야함.
-  //버튼 누르면 마이페이지 주문내역으로 이동하기.
 
   const cartItems: Product[] = JSON.parse(localStorage.getItem('cart') || '[]')
   const accessToken = localStorage.getItem('token') || ''
