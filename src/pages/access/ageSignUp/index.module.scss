@@ -25,6 +25,12 @@
       background-color: $bg-primary-white;
       margin-right: 10px;
       border-radius: 5px;
+
+      .thirteen {
+        width: 315px;
+        height: 180px;
+        margin-top: 20px;
+      }
     }
 
     .fourteenPlus {
@@ -32,6 +38,12 @@
       height: 240px;
       background-color: $bg-primary-white;
       border-radius: 5px;
+
+      .fourteen {
+        width: 315px;
+        height: 180px;
+        margin-top: 20px;
+      }
     }
   }
 }

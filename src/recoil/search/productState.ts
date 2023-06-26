@@ -4,6 +4,9 @@ import { searchProducts } from '@/apis/search'
 import { searchQueryState } from './queryStringState'
 import { SearchProductsResponse } from './../../types/product'
 
+/**
+ * @description 내부적으로 API를 호출하여 SearchProductsResponse를 반환하는 비동기 selector입니다.
+ */
 export const filteredProductState = selector<SearchProductsResponse>({
   key: 'filteredProductList' + v1(),
   get: async ({ get }) => {

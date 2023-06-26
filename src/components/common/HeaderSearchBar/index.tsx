@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
-import { useNavigate } from 'react-router-dom'
+import { SEARCH_MAX_LENGTH } from '@/constants/search'
+
 type Props = {
   isOpen: boolean
   onSearch: (searchText: string) => void
@@ -27,9 +28,7 @@ export default function HeaderSearchBar({ isOpen, onSearch }: Props) {
           value={searchText}
           onChange={handleSearchText}
           placeholder="검색어를 입력해 주세요"
-          minLength={2}
-          maxLength={20}
-          required
+          maxLength={SEARCH_MAX_LENGTH}
         />
         <input className={styles.submit} type="submit" value="검색" />
         <img

@@ -5,18 +5,13 @@ import ShoppingCart from '@/components/payment/ShoppingCart'
 import Btn from '@/components/payment/Btn'
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/recoil/common/userState'
-import { UserCart, UserCartItem } from '@/types/usercart'
+import { matchedUserCartState } from '@/recoil/common/matchedUserCartState'
 
 export default function CheckInfo() {
   const [btnActive, setBtnActive] = useState(false)
   const [totalValue, setTotalValue] = useState(0)
   const user = useRecoilValue(userState)
-  //recoilState로 대체하기 ✔
-  // localStorage에 저장된 accessToken으로 User정보 fetch? (types : User) ✔
-  // Recoil로 상태관리가 되고 있으면 헤더에서 fetch된 state를 갖다쓰면 되는가?! ✔
-
-  const userCart: UserCart = JSON.parse(localStorage.getItem('cart') || '[]')
-  const matchedUserCart = userCart.filter((item: UserCartItem) => item.email === user.email)
+  const matchedUserCart = useRecoilValue(matchedUserCartState)
 
   useEffect(() => {
     if (matchedUserCart.length === 0) {

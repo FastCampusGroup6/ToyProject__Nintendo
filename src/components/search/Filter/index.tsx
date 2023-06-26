@@ -14,10 +14,11 @@ export default function Filter() {
     navigation('/search?' + queryString)
   }
 
-  function cancleGenre() {
+  // * genre를 제거한 주소로 이동합니다.
+  function movePageWithoutGenre() {
     if (!query.search && !query.sort) return navigation('/search')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { genre: _, ...restQuery } = query
+    const { genre, ...restQuery } = query
     const params = generateQueryString<SearchQuery>(restQuery)
     navigation('/search?' + params.toString())
   }
@@ -30,7 +31,7 @@ export default function Filter() {
             <>
               <span>선택된 장르 : </span>
               <span>{query.genre}</span>
-              <button onClick={cancleGenre}>취소하기</button>
+              <button onClick={movePageWithoutGenre}>취소하기</button>
             </>
           )}
         </div>

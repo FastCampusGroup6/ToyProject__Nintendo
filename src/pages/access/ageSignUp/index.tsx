@@ -8,13 +8,25 @@ export default function AgeSignUp() {
       <div className={styles['age']}>
         <div className={styles['thirteenUnder']}>
           <a href="/access/signupform">
-            <img />
+            <div className={styles['thirteen']}>
+              <img
+                className={styles['thirteenimg']}
+                src={process.env.PUBLIC_URL + '/images/access/13young.png'}
+                alt="13young"
+              />
+            </div>
             <span>13세 이하는 이곳</span>
           </a>
         </div>
         <div className={styles['fourteenPlus']}>
           <a href="/access/signupform">
-            <img />
+            <div className={styles['fourteen']}>
+              <img
+                className={styles['fourteenimg']}
+                src={process.env.PUBLIC_URL + '/images/access/14older.png'}
+                alt="14older"
+              />
+            </div>
             <span>14세 이상은 이곳</span>
           </a>
         </div>

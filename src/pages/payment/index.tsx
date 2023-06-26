@@ -4,19 +4,20 @@ import PayProcessFlow from '@/components/payment/PayProcessFlow'
 import ShoppingCart from '@/components/payment/ShoppingCart'
 import Btn from '@/components/payment/Btn'
 import { userState } from '@/recoil/common/userState'
+import { matchedUserCartState } from '@/recoil/common/matchedUserCartState'
 import { useRecoilValue } from 'recoil'
-import { UserCart, UserCartItem } from '@/types/usercart'
 
 export default function Payment() {
   const [btnActive, setBtnActive] = useState(false)
-
+  const matchedUserCart = useRecoilValue(matchedUserCartState)
   const user = useRecoilValue(userState)
   const username = user.displayName
-  const userCart: UserCart = JSON.parse(localStorage.getItem('cart') || '[]')
-  const matchedUserCart = userCart.filter((item: UserCartItem) => item.email === user.email)
+
   useEffect(() => {
     if (matchedUserCart.length === 0) {
       setBtnActive(true)
+    } else {
+      setBtnActive(false)
     }
   }, [matchedUserCart])
 

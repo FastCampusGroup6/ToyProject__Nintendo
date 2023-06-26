@@ -43,6 +43,9 @@
       overflow: hidden;
       transition: all 0.2s ease-in-out;
     }
+    li {
+      cursor: pointer;
+    }
     li,
     li * {
       transition: all 0.1s ease-in-out;
@@ -89,9 +92,6 @@
           align-items: center;
         }
       }
-    }
-    .search {
-      cursor: pointer;
     }
   }
 }

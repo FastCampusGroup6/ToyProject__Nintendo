@@ -9,10 +9,10 @@ export async function editedUserInfo(
   const response = await api({
     method: 'PUT',
     url: 'api/auth/user',
-    data,
+    data, //요청 데이터
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
   })
-  return response.data
+  return response.data //응답 데이터
 }

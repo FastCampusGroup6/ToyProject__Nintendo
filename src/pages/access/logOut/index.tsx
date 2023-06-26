@@ -1,11 +1,20 @@
 import React from 'react'
 import styles from './index.module.scss'
+import { signOut } from '@/apis/access/signOut'
+import { useNavigate } from 'react-router-dom'
 
 export default function LogOut() {
-  const handleLogout = () => {
-    // 토큰 제거
-    localStorage.removeItem('token')
-    console.log('로그아웃 성공')
+  const navigate = useNavigate()
+  const handleLogout = async () => {
+    const accessToken = localStorage.getItem('token')
+
+    if (!accessToken) {
+      console.log('로그아웃 실패: 로그인상태가 아닙니다.')
+      return
+    }
+
+    await signOut(accessToken)
+    navigate('/')
   }
 
   return (

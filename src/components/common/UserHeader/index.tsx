@@ -4,34 +4,45 @@ import { Link, useLocation } from 'react-router-dom'
 import { getAuthenticatedUser } from '@/apis/payment/access'
 import { useRecoilState } from 'recoil'
 import { userState } from '@/recoil/common/userState'
+import { matchedUserCartState } from '@/recoil/common/matchedUserCartState'
+import { UserCartItem, UserCart } from '@/types/usercart'
 
 export default function UserHeader() {
   const [currentTitle, setCurrentTitle] = useState('')
   const currentLocation = useLocation().pathname
   const [cartItemCount, setCartItemCount] = useState(0)
   const [isUserClicked, setIsUserClicked] = useState(false)
-  const [isLogined, setIsLogined] = useState(false)
+  const [isLoggedIn, setisLoggedIn] = useState(false)
   const [userInfo, setUserInfo] = useRecoilState(userState)
+  const [matchedUserCart, setMatchedUserCart] = useRecoilState(matchedUserCartState)
 
   // 1. localStorage에서 token 받아오기
   const accessToken = localStorage.getItem('token') || ''
 
+  const userCart: UserCart = JSON.parse(localStorage.getItem('cart') || '[]')
+
   useEffect(() => {
     if (accessToken) {
-      setIsLogined(true)
+      setisLoggedIn(true)
     } else {
-      setIsLogined(false)
+      setisLoggedIn(false)
     }
   }, [accessToken])
 
+  useEffect(() => {
+    const filteredUserCart = userCart.filter((item: UserCartItem) => item.email === userInfo.email)
+
+    if (JSON.stringify(filteredUserCart) !== JSON.stringify(matchedUserCart)) {
+      setMatchedUserCart(filteredUserCart)
+    }
+  }, [userInfo, userCart])
+
   const fetchUserInfo = async () => {
-    if (!isLogined) return
+    if (!isLoggedIn) return
     // api 호출함수 authenticate(accessToken) 호출
-    if (isLogined) {
+    if (isLoggedIn) {
       try {
-        console.log('로딩중..')
         const userData = await getAuthenticatedUser(accessToken)
-        console.log(userData)
         return setUserInfo(userData)
       } catch (error) {
         console.error(error, 'fetchUserInfo 오류1')
@@ -44,12 +55,12 @@ export default function UserHeader() {
     if (currentLocation.includes('payment')) setCurrentTitle('결제')
     if (currentLocation.includes('user')) setCurrentTitle('마이페이지')
     if (currentLocation.includes('access')) setCurrentTitle('인증')
-    setCartItemCount(JSON.parse(localStorage.getItem('cart') || '[]').length)
+    setCartItemCount(matchedUserCart.length)
     setIsUserClicked(false)
-    if (isLogined) {
+    if (isLoggedIn) {
       fetchUserInfo()
     }
-  }, [isLogined, currentLocation])
+  }, [isLoggedIn, currentLocation, matchedUserCart])
 
   const handleUserClick = () => {
     setIsUserClicked(!isUserClicked)
@@ -68,7 +79,7 @@ export default function UserHeader() {
         <div className={styles.titles}>
           <div className={styles.mainTitle}>숨텐도</div>
           <div className={styles.subTitle}>{currentTitle}</div>
-          {isLogined && (
+          {isLoggedIn && (
             <div className={styles.userInfo}>
               <div className={styles.userPage} onClick={handleUserClick}>
                 <div className={styles.userImg}>
@@ -111,7 +122,7 @@ export default function UserHeader() {
               </div>
             </div>
           )}
-          {!isLogined && (
+          {!isLoggedIn && (
             <div>
               <Link to="/access/login" className={styles.logInLink}>
                 <span>로그인하기</span>

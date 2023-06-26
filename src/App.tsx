@@ -1,38 +1,92 @@
 import React from 'react'
+import loadable from '@loadable/component'
 import './App.scss'
 import Home from './pages/home'
 import { Route, Routes } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
-import AccessLayout from './layouts/AccessLayout'
-import MyPageLayout from './layouts/MypageLayout'
-import PaymentLayout from './layouts/PaymentLayout'
+import PaymentLoading from '@/components/payment/Loading'
+const MainLayout = loadable(() => import('./layouts/MainLayout'), {
+  fallback: <div>loading...</div>
+})
+const AccessLayout = loadable(() => import('./layouts/AccessLayout'), {
+  fallback: <div>loading...</div>
+})
+const MyPageLayout = loadable(() => import('./layouts/MypageLayout'), {
+  fallback: <div>loading...</div>
+})
+const PaymentLayout = loadable(() => import('./layouts/PaymentLayout'), {
+  fallback: <div>loading...</div>
+})
 
 //Main!!!!
-import Search from './pages/search'
-import Detail from './pages/detail'
+const Search = loadable(() => import('./pages/search'), {
+  fallback: <div>loading...</div>
+})
+const Detail = loadable(() => import('./pages/detail'), {
+  fallback: <div>loading...</div>
+})
 //MyPage!!!!
-import MyPage from './pages/mypage'
-import GetItemAll from './pages/mypage/getItemAll'
-import JjimItemAll from './pages/mypage/jjimItemAll'
-import CertProfile from './pages/mypage/certProfile'
-import EditProfile from './pages/mypage/certProfile/editProfile'
-import Account from './pages/mypage/account'
-import AddAccount from './pages/mypage/account/addAccount'
-import BankName from './pages/mypage/account/banks'
+const MyPage = loadable(() => import('./pages/mypage'), {
+  fallback: <div>loading...</div>
+})
+const GetItemAll = loadable(() => import('./pages/mypage/getItemAll'), {
+  fallback: <div>loading...</div>
+})
+const JjimItemAll = loadable(() => import('./pages/mypage/jjimItemAll'), {
+  fallback: <div>loading...</div>
+})
+const CertProfile = loadable(() => import('./pages/mypage/certProfile'), {
+  fallback: <div>loading...</div>
+})
+const EditProfile = loadable(() => import('./pages/mypage/certProfile/editProfile'), {
+  fallback: <div>loading...</div>
+})
+const Account = loadable(() => import('./pages/mypage/account'), {
+  fallback: <div>loading...</div>
+})
+const AddAccount = loadable(() => import('./pages/mypage/account/addAccount'), {
+  fallback: <div>loading...</div>
+})
+const BankName = loadable(() => import('./pages/mypage/account/banks'), {
+  fallback: <div>loading...</div>
+})
 //Access!!!!
-import Access from './pages/access'
-import AgeSignUp from './pages/access/ageSignUp'
-import SignUpForm from './pages/access/signUpForm'
-import LogIn from './pages/access/logIn'
-import LogOut from './pages/access/logOut'
-import PasswordCheck from './pages/access/passwordCheck'
-import PasswordChangeForm from './pages/access/passwordChangeForm'
+const Access = loadable(() => import('./pages/access'), {
+  fallback: <div>loading...</div>
+})
+const AgeSignUp = loadable(() => import('./pages/access/ageSignUp'), {
+  fallback: <div>loading...</div>
+})
+const SignUpForm = loadable(() => import('./pages/access/signUpForm'), {
+  fallback: <div>loading...</div>
+})
+const LogIn = loadable(() => import('./pages/access/logIn'), {
+  fallback: <div>loading...</div>
+})
+const LogOut = loadable(() => import('./pages/access/logOut'), {
+  fallback: <div>loading...</div>
+})
+const PasswordCheck = loadable(() => import('./pages/access/passwordCheck'), {
+  fallback: <div>loading...</div>
+})
+const PasswordChangeForm = loadable(() => import('./pages/access/passwordChangeForm'), {
+  fallback: <div>loading...</div>
+})
 //Payment!!!!
-import Payment from './pages/payment'
-import Agreement from './pages/payment/agreement'
-import CheckInfo from './pages/payment/checkInfo'
-import PayMethod from './pages/payment/payMethod'
-import OrderComplete from './pages/payment/orderComplete'
+const Payment = loadable(() => import('./pages/payment'), {
+  fallback: <PaymentLoading color="#666666" />
+})
+const Agreement = loadable(() => import('./pages/payment/agreement'), {
+  fallback: <PaymentLoading color="#666666" />
+})
+const CheckInfo = loadable(() => import('./pages/payment/checkInfo'), {
+  fallback: <PaymentLoading color="#666666" />
+})
+const PayMethod = loadable(() => import('./pages/payment/payMethod'), {
+  fallback: <PaymentLoading color="#666666" />
+})
+const OrderComplete = loadable(() => import('./pages/payment/orderComplete'), {
+  fallback: <PaymentLoading color="#666666" />
+})
 
 function App() {
   return (

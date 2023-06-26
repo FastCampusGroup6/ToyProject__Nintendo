@@ -1,35 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import styles from './index.module.scss'
-import { SignInResponse } from '@/types/auth'
+import { SignInRequest } from '@/types/auth'
+import { signIn } from '@/apis/access/signIn'
 import { useNavigate } from 'react-router-dom'
+import { emailRegex, passwordRegex } from '@/utils/constants'
 
-export default function PasswordCheck() {
+export default function SignIn() {
   const [email, setEmail] = useState('')
-  const [displayName, setDisplayName] = useState('')
-  const [isMatched, setIsMatched] = useState(false)
+  const [password, setPassword] = useState('')
+  const [emailMsg, setEmailMsg] = useState('')
+  const [pwdMsg, setPwdMsg] = useState('')
   const navigate = useNavigate()
 
-  const dummyEmailRequest: SignInResponse = {
-    user: {
-      email: 'example@example.com',
-      displayName: 'John Doe',
-      profileImg: null
-    },
-    accessToken: 'dummyAccessToken'
-  }
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (email === dummyEmailRequest.user.email && displayName === dummyEmailRequest.user.displayName) {
-      setIsMatched(true)
-      navigate('/access/passwordchangeform')
+    if (emailRegex.test(email) && passwordRegex.test(password)) {
+      try {
+        const data: SignInRequest = {
+          email,
+          password
+        }
+        const response = await signIn(data)
+
+        navigate('/access/passwordchangeform')
+
+        console.log('패스워드체크 성공:', response)
+      } catch (error) {
+        console.error('로그인 실패:', error)
+        setEmailMsg('입력값이 틀렸습니다. 다시 확인해주세요.')
+        setPwdMsg('입력값이 틀렸습니다. 다시 확인해주세요.')
+      }
     } else {
-      setIsMatched(false)
-      console.log('입력한 값이 틀렸습니다.')
+      setEmailMsg('입력값이 틀렸습니다. 다시 확인해주세요.')
+      setPwdMsg('입력값이 틀렸습니다. 다시 확인해주세요.')
     }
   }
-
   return (
     <div className={styles.container}>
       <h1 className={styles['subTitle']}>닌텐도 어카운트</h1>
@@ -42,25 +48,35 @@ export default function PasswordCheck() {
               type="email"
               name="email"
               value={email}
-              placeholder="메일 주소/로그인 ID"
+              placeholder="메일 주소"
               onChange={(e) => setEmail(e.target.value)}
             />
+            {
+              <div className={emailMsg === '입력값이 틀렸습니다. 다시 확인해주세요.' ? styles.error : ''}>
+                {emailMsg}
+              </div>
+            }
           </div>
 
           <div className={styles['inputForm']}>
             <input
               className={styles['input-text']}
-              type="text"
-              name="displayName"
-              value={displayName}
-              placeholder="닉네임"
-              onChange={(e) => setDisplayName(e.target.value)}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              placeholder="암호"
             />
+            {<div className={pwdMsg === '입력값이 틀렸습니다. 다시 확인해주세요.' ? styles.error : ''}>{pwdMsg}</div>}
           </div>
 
           <div>
             <div className={styles['changeCheck-btn']}>
-              <button type="submit" className={styles['submit-btn']}>
+              <button
+                type="submit"
+                className={styles['submit-btn']}
+                disabled={!emailRegex.test(email) || !passwordRegex.test(password)}
+              >
                 확인
               </button>
             </div>

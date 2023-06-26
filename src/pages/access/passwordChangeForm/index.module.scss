@@ -47,7 +47,7 @@
     margin: 0 auto;
 
     .submit-btn {
-      background-color: $bg-primary-grey;
+      background-color: $point-red;
       width: 160px;
       height: 40px;
       border-radius: 20px;
@@ -55,6 +55,11 @@
       color: $text-light-white;
       font-weight: 600;
       margin: 0 auto;
+
+      &:disabled {
+        background-color: $bg-primary-grey;
+        cursor: not-allowed;
+      }
     }
   }
 }

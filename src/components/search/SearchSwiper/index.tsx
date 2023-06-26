@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from './index.module.scss'
-// import Swiper core and required modules
+
+// * Swiper 관련 import입니다.
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay, Parallax } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-// Import Swiper styles
 import './swiper.css'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -11,11 +11,9 @@ import 'swiper/css/scrollbar'
 import 'swiper/css/a11y'
 
 export default function SearchSwiper() {
-  // https://stackoverflow.com/questions/74261179/how-to-create-swiper-slider-with-progress-bar
   return (
     <section id="searchSwiper" className={styles.container}>
       <Swiper
-        // install Swiper modules
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay, Parallax]}
         spaceBetween={50}
         slidesPerView={1}

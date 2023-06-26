@@ -1,163 +1,188 @@
-import React, { useState, useCallback, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import styles from './index.module.scss'
 import Nav from '@/components/mypage/nav/Nav'
-import { SignUpRequest } from '@/types/auth'
-
-// 정규식 메서드 test()
+import { editedUserInfo } from '@/apis/user/editedUserInfo'
+import { useRecoilState } from 'recoil'
+import { userState } from '@/recoil/common/userState'
+import { useNavigate } from 'react-router-dom'
+import { EditedUserInfoRequest, EditedUserInfoResponse } from '@/types/user'
+import { displayNameRegex, passwordRegex } from '@/utils/constants'
 
 export default function EditProfile() {
-  const [displayName, setDisplayName] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [profileImage, setProfileImage] = useState('')
+  const [curUser, setCurUser] = useRecoilState(userState)
+  // API에 등록할 수정용 요청 데이터 (request body의 data)   <이건 타입 지정>
+  const [updatedInfo, setUpdatedInfo] = useState<EditedUserInfoRequest>({
+    displayName: '',
+    profileImgBase64: '',
+    oldPassword: '',
+    newPassword: ''
+  })
+  const accessToken = localStorage.getItem('token') || ''
+  const [disabled, setDisabled] = useState(true)
+  const [InputDisabled, setInputDisabled] = useState(true)
+  const [submitDisabled, setSubmitDisabled] = useState(true)
+  const [nicknameInputValue, setNicknameInputValue] = useState('')
+  const [DisplayNameCheckedMsg, setDisplayNameCheckedMsg] = useState('')
+  const [passwordInputValue, setPasswordInputValue] = useState('')
+  const [passwordInputCheckValue, setPasswordInputCheckValue] = useState('')
+  const [passwordCheckedMsg, setPasswordCheckedMsg] = useState('')
+  const [passwordDoubleCheckedMsg, setPasswordDoubleCheckedMsg] = useState('')
+  const navigate = useNavigate()
+  //===========================================================================//
+  // 닉네임 유효성 체크 : 입력 양식 체크
+  const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setNicknameInputValue(e.target.value)
 
-  // 메세지 상태 저장
-  const [pwdMsg, setPwdMsg] = useState('')
-  const [confirmPwdMsg, setConfirmPwdMsg] = useState('')
-  const [displayNameMsg, setDisplayNameMsg] = useState('')
-  const [displayNameCheckMsg, setDisplayNameCheckMsg] = useState('')
-
-  // 중복체크
-  const [isDisplayNameChecked, setIsDisplayNameChecked] = useState(false)
-  const [isDisplayNameDuplicate, setIsDisplayNameDuplicate] = useState(false)
-
-  // email & 닉네임 & 비밀번호 정규식
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/
-  const displayNameRegex = /^[a-zA-Z가-힣0-9\s]{1,10}$/
-
-  // 더미데이터
-  const dummySignUpRequest: SignUpRequest = {
-    email: 'example@example.com',
-    password: 'password123',
-    displayName: 'John Doe',
-    profileImgBase64: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/...'
+    if (nicknameInputValue == null) {
+      console.log('닉네임 재설정 중')
+      return
+    } else if (!displayNameRegex.test(nicknameInputValue)) {
+      setDisplayNameCheckedMsg('닉네임 양식을 지켜주세요.')
+      setDisabled(true)
+      return
+    } else {
+      setDisabled(false)
+      console.log('닉네임 양식 :', '통과')
+      setDisplayNameCheckedMsg('새로운 닉네임')
+    }
   }
 
-  // 중복닉네임 실험용 더미데이터
-  const dummyData = ['John', 'Jane', 'Alice']
-
-  // // 중복체크 기능
+  // 중복체크 : 사용중인 닉네임 체크
   const onIsDisplayNameChecked = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-
-    const isDuplicate = dummyData.includes(displayName)
-
     // 중복체크 메세지
-    if (isDuplicate) {
-      setDisplayNameCheckMsg('이미 사용 중인 닉네임입니다.')
+    if (nicknameInputValue === curUser.displayName) {
+      alert('이미 사용 중인 닉네임입니다.')
+      setDisabled(true)
     } else {
-      setDisplayNameCheckMsg('사용 가능한 닉네임입니다.')
+      alert('사용 가능한 닉네임입니다.')
+      setDisabled(false)
     }
+  }
+  //===========================================================================//
+  // 비밀번호 유효성 체크 : 입력 양식 체크
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setPasswordInputValue(e.target.value)
 
-    setIsDisplayNameDuplicate(isDuplicate)
-    setIsDisplayNameChecked(true)
+    if (passwordInputValue == null) {
+      console.log('비밀번호 재설정 중')
+      setPasswordCheckedMsg('')
+      return
+    } else if (!passwordRegex.test(passwordInputValue)) {
+      setPasswordCheckedMsg('비밀번호 양식을 지켜주세요.')
+      return setInputDisabled(true)
+    } else {
+      console.log('비밀번호 양식 :', '통과')
+      setPasswordCheckedMsg('비밀번호를 한 번더 입력해 주세요.')
+      return setInputDisabled(false)
+    }
   }
 
-  // 닉네임 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangeDisplayName = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curDisplayName = e.target.value
-      setDisplayName(curDisplayName)
+  // 중복체크 : 변경될 비밀번호 체크
+  const handlePasswordCheckChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setPasswordInputCheckValue(e.target.value)
+    // 중복 체크 메세지
+    if (passwordInputCheckValue == null) {
+      console.log('비밀번호 확인 중')
+      setPasswordDoubleCheckedMsg('')
+      return
+    } else if (passwordInputValue !== e.target.value) {
+      setPasswordDoubleCheckedMsg('비밀번호가 동일하지 않습니다.')
+      setSubmitDisabled(true)
 
-      if (!displayNameRegex.test(curDisplayName)) {
-        setDisplayNameMsg('닉네임이 올바르지 않습니다.')
-      } else {
-        setDisplayNameMsg('올바른 닉네임 형식입니다.')
-      }
-    },
-    [displayNameRegex]
-  )
-  // 비밀번호 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangePassword = 
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curPassword = e.target.value
-      setPassword(curPassword)
 
-      if (!passwordRegex.test(curPassword)) {
-        setPwdMsg('비밀번호가 올바르지 않습니다.')
-      } else {
-        setPwdMsg('안전한 비밀번호입니다.')
-      }
+      return passwordInputCheckValue === null
+    } else if (passwordInputValue === e.target.value) {
+      setPasswordDoubleCheckedMsg('비밀번호 확인 완료 ✅')
+      setSubmitDisabled(false)
     }
+  }
 
-  // 비밀번호 일치 여부 콜백함수를 이용해 현재 입력값에 따른 메세지를 실시간으로 반영
-  const onChangeConfirmPassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const curConfirmPassword = e.target.value
-      setConfirmPassword(curConfirmPassword)
+  // // 닉네임 & 비밀번호 API에 상태 업데이트
+  // const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target
+  //   setUpdatedInfo((prevInfo) => ({
+  //     ...prevInfo,
+  //     [name]: value
+  //   }))
+  // }
 
-      if (password !== curConfirmPassword) {
-        setConfirmPwdMsg('비밀번호가 일치하지 않습니다.')
-      } else {
-        setConfirmPwdMsg('올바른 비밀번호입니다.')
-      }
-    },
-    [password]
-  )
+  // 이름 입력값 상태 업데이트
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setUpdatedInfo((prevInfo) => ({
+      ...prevInfo,
+      displayname: value
+    }))
+  }
 
-  //이미지 미리보기
-  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files
-    if (files && files.length > 0) {
-      const file = files[0]
+  // 이메일 입력값 상태 업데이트
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setUpdatedInfo((prevInfo) => ({
+      ...prevInfo,
+      email: value
+    }))
+  }
+
+  // 닉네임 함수들 호출
+  const handleNameChangeData = (e: ChangeEvent<HTMLInputElement>) => {
+    handleNicknameChange(e)
+    handleNameChange(e)
+  }
+  //  비밀번호 함수들 호출
+  const handlePasswordChangeData = (e: ChangeEvent<HTMLInputElement>) => {
+    if (passwordInputCheckValue === null) {
+      console.log('이건 동작하면 안돼')
+      return false
+    } else {
+      handlePasswordCheckChange(e)
+      handleEmailChange(e)
+    }
+  }
+  //===========================================================================//
+
+  // 프로필 이미지 [미리보기]상태값
+  const [profileImage, setProfileImage] = useState('')
+
+  // 이미지 유효성 검사 및 미리 보기 업로드
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0]
       const reader = new FileReader()
 
       reader.onloadend = () => {
         const base64 = reader.result
         if (base64) {
           const str = base64?.toString()
-          if (str && str.length > 1000000) {
+          if (str && str.length > 1048576) {
             alert('이미지는 1MB이하여야합니다!')
             return
           }
-          setProfileImage(base64.toString())
         }
+        setUpdatedInfo((prevInfo) => ({
+          ...prevInfo,
+          profileImgBase64: reader.result as string
+        }))
+        setProfileImage(reader.result as string) // 프로필 이미지 상태 업데이트
       }
       reader.readAsDataURL(file)
     }
   }
+  //===========================================================================//
 
-  // 유효성 검사기능 및 중복체크 전부 통과해야 폼 제출성공
-  const validateForm = () => {
-    // 닉네임 유효성 검사
-    if (!displayNameRegex.test(displayName)) {
-      return false
-    }
-    // 중복 체크 확인 여부 검사
-    if (!isDisplayNameChecked || isDisplayNameDuplicate) {
-      return false
-    }
-    // 비밀번호 유효성 검사
-    if (!passwordRegex.test(password)) {
-      return <div>Password is not valid.</div>
-    }
-
-    // 비밀번호 일치 여부 검사
-    if (password !== confirmPassword) {
-      return <div>비밀번호가 유효하지 않습니다.</div>
-    }
-
-    // 모든 유효성 검사 통과
-    return true
-  }
-
-  // 개인정보 수정 폼제출
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    if (validateForm()) {
-      alert('정보 변경 완료')
-      console.log('회원가입 요청:', {
-        password,
-        displayName,
-        profileImgBase64: dummySignUpRequest.profileImgBase64
-      })
-    } else {
-      alert('정보 변경 실패. 입력 양식을 다시 확인해 주세요.')
-      console.log('회원가입 요청실패:', {
-        password,
-        displayName,
-        profileImgBase64: dummySignUpRequest.profileImgBase64
-      })
+  // API 호출 <= updatedInfo 수정데이터들 보내버림
+  const handleSubmit = async () => {
+    try {
+      await editedUserInfo(updatedInfo, accessToken)
+      console.log('PUT 실행 성공')
+      alert('정상적으로 변경 되었습니다.')
+      navigate('/user/${user.username}')
+    } catch (error) {
+      console.error('API 호출 실패 또는 오류:', error)
     }
   }
 
@@ -177,35 +202,27 @@ export default function EditProfile() {
                   <label className={styles.label} htmlFor="displayName">
                     닉네임
                   </label>
-                  <form className={styles.inputForm} onSubmit={handleSubmit}>
+                  <form className={styles.inputForm}>
                     <input
                       id="displayName"
                       className={`${styles.inputTag} ${styles.displayName}`}
-                      onChange={onChangeDisplayName}
                       type="text"
                       name="displayName"
-                      placeholder="displayName"
+                      value={nicknameInputValue}
+                      onChange={handleNameChangeData}
+                      placeholder={curUser.displayName}
                       required
                     />
-                    {/* 중복체크하지 않은 경우 오류 메시지 */}
-                    {!isDisplayNameChecked && <div className={styles.error}>중복 확인을 해주십시오.</div>}
-                    {/* 중복체크 및 약간동의 후 메시지 */}
-                    {isDisplayNameChecked && (
-                      <div className={displayNameCheckMsg === '사용 가능한 닉네임입니다.' ? styles.msg : styles.error}>
-                        {displayNameCheckMsg}
-                      </div>
-                    )}
-                    {/* 중복체크하기전 메시지 출력 */}
-                    {displayNameMsg && !isDisplayNameChecked && (
-                      <div className={displayNameMsg === '올바른 닉네임 형식입니다.' ? styles.msg : styles.error}>
-                        {displayNameMsg}
-                      </div>
-                    )}
                   </form>
-                  <button className={styles.btnTag} onClick={onIsDisplayNameChecked}>
+                  <button className={styles.btnTag} onClick={onIsDisplayNameChecked} disabled={disabled}>
                     중복확인
                   </button>
                 </li>
+                {DisplayNameCheckedMsg && (
+                  <p className={DisplayNameCheckedMsg === '새로운 닉네임' ? styles.msg : styles.error}>
+                    {DisplayNameCheckedMsg}
+                  </p>
+                )}
                 <li className={styles.list}>
                   <label className={styles.label} htmlFor="email">
                     이메일
@@ -216,7 +233,7 @@ export default function EditProfile() {
                       className={`${styles.inputTag} ${styles.email}`}
                       type="email"
                       name="email"
-                      placeholder="{고객 이메일 데이터}"
+                      placeholder={curUser.email}
                       disabled
                       required
                     />
@@ -226,28 +243,48 @@ export default function EditProfile() {
                   <label className={styles.label} htmlFor="password">
                     비밀 번호
                   </label>
-                  <form className={styles.inputForm} onSubmit={handleSubmit}>
+                  <form className={styles.inputForm}>
                     <input
                       id="password"
                       className={`${styles.inputTag} ${styles.password}`}
                       type="password"
                       name="password"
-                      value={confirmPassword}
-                      onChange={onChangeConfirmPassword}
-                      placeholder="password"
-                      autoComplete="off"
+                      value={passwordInputValue}
+                      onChange={handlePasswordChange}
+                      placeholder="새 비밀번호"
                       required
                     />
-                    {pwdMsg && (
-                      <div className={pwdMsg === '안전한 비밀번호입니다.' ? styles.msg : styles.error}>{pwdMsg}</div>
-                    )}
-                    {confirmPwdMsg && (
-                      <div className={confirmPwdMsg === '올바른 비밀번호입니다.' ? styles.msg : styles.error}>
-                        {confirmPwdMsg}
-                      </div>
-                    )}
+                    <input
+                      id="password"
+                      className={`${styles.inputTag} ${styles.passwordCheck}`}
+                      type="password"
+                      name="newPassword"
+                      value={passwordInputCheckValue}
+                      onChange={handlePasswordChangeData}
+                      placeholder="새 비밀번호 확인"
+                      disabled={InputDisabled}
+                      required
+                    />
                   </form>
                 </li>
+                {passwordCheckedMsg && (
+                  <span
+                    className={
+                      passwordCheckedMsg === '비밀번호를 한 번더 입력해 주세요.' ? styles.ps_msg : styles.ps_error
+                    }
+                  >
+                    {passwordCheckedMsg}
+                  </span>
+                )}
+                {passwordDoubleCheckedMsg && (
+                  <span
+                    className={
+                      passwordDoubleCheckedMsg === '비밀번호 확인 완료 ✅' ? styles.psCheck_msg : styles.psCheck_error
+                    }
+                  >
+                    {passwordDoubleCheckedMsg}
+                  </span>
+                )}
                 <li className={`${styles.list} ${styles.uploade}`}>
                   <label className={styles.label} htmlFor="uploade">
                     프로필
@@ -265,10 +302,10 @@ export default function EditProfile() {
                         - 파일 사이즈 최대 1MB 이하
                         <br /> - 사용자 프로필 이미지(Base64) <br />: jpg/ jpeg/ webp/ png/ gif/ svg
                       </div>
-                      <form className={styles.uploadeForm} onSubmit={handleSubmit}>
+                      <form className={styles.uploadeForm}>
                         <input
                           className={`${styles.inputTag} ${styles.uploadForm}`}
-                          onChange={handleChangeFile}
+                          onChange={handleFileChange}
                           id="uploade"
                           type="file"
                           name="file"
@@ -285,6 +322,17 @@ export default function EditProfile() {
                   </div>
                 </li>
               </ol>
+              <button
+                className={
+                  submitDisabled === true
+                    ? `${styles.submitBtn} ${styles.btnError}`
+                    : `${styles.submitBtn} ${styles.submitBtn}`
+                }
+                onClick={handleSubmit}
+                disabled={submitDisabled}
+              >
+                완료
+              </button>
             </div>
           </div>
         </section>

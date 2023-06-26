@@ -3,8 +3,7 @@
   position: -webkit-sticky; /* 사파리 브라우저 지원 */
   position: sticky;
   top: 20px;
-  min-width: 280px;
-
+  min-width: 220px;
   height: fit-content;
   .title {
     font-size: 1.5rem;
@@ -31,5 +30,11 @@
         color: $point-red;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .container {
+    min-width: 220px;
   }
 }

@@ -1,0 +1,49 @@
+@import '@/_variables.scss';
+
+.signup-input-group {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 40px;
+  width: 740px;
+  height: 40px;
+
+  .msg {
+    margin-top: 5px;
+    margin-left: 30px;
+    text-align: start;
+    font-weight: bold;
+    color: $text-sub-grey;
+  }
+  .error {
+    margin-top: 5px;
+    margin-left: 30px;
+    text-align: start;
+    font-weight: bold;
+    color: $point-red;
+  }
+}
+
+.input-text {
+  width: 140px;
+  padding-top: 12px;
+}
+
+.input-form {
+  width: 480px;
+
+  .input-info {
+    width: 420px;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 4px;
+  }
+}
+
+.duplicate-check {
+  height: 40px;
+  border-radius: 5px;
+  width: 50px;
+  background-color: $bg-primary-grey;
+  border: 0px;
+  cursor: pointer;
+}
