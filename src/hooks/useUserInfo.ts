@@ -12,11 +12,10 @@ const useUserInfo = () => {
   const [userInfo, setUserInfo] = useRecoilState(userState)
   const location = useLocation()
 
-  const logout = (): boolean => {
+  const logout = () => {
     localStorage.removeItem('token')
     setIsLoggedIn(false)
     setUserInfo({} as User)
-    return false
   }
 
   useEffect(() => {

@@ -27,9 +27,9 @@ const useCartItems = (userInfo: Nullable<User>) => {
     setCartItems(matchedUserCart)
   }, [])
 
-  const addCartItems = (cartItem: UserCart) => {
-    localStorage.setItem('cart', JSON.stringify([...cartItem, ...cartItems]))
-    setCartItems([...cartItem, ...cartItems])
+  const addCartItems = (freshCartItems: UserCart) => {
+    localStorage.setItem('cart', JSON.stringify([...freshCartItems, ...cartItems]))
+    setCartItems([...freshCartItems, ...cartItems])
   }
   const removeCartItemsByUser = (user: User) => {
     const carts: UserCart = JSON.parse(localStorage.getItem('cart') || '[]')
