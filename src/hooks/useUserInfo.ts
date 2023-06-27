@@ -4,18 +4,23 @@ import { useRecoilState } from 'recoil'
 import { userState } from '@/recoil/common/userState'
 import { getAuthenticatedUser } from '@/apis/payment/access'
 import { User } from '@/types/user'
+import { signOut } from '@/apis/access/signOut'
 
-type UserInfoHooks = [UserInfoHooks: User, isLoggedIn: boolean, logout: () => void]
+type UserInfoHooks = [UserInfoHooks: User, isLoggedIn: boolean, logout: () => Promise<boolean>]
 
 const useUserInfo = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userInfo, setUserInfo] = useRecoilState(userState)
   const location = useLocation()
 
-  const logout = () => {
+  const logout = async () => {
+    let isLoggedOut = !isLoggedIn
+    const accessToken = localStorage.getItem('token')
+    if (accessToken) isLoggedOut = await signOut(accessToken)
     localStorage.removeItem('token')
     setIsLoggedIn(false)
     setUserInfo({} as User)
+    return isLoggedOut
   }
 
   useEffect(() => {

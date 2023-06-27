@@ -9,14 +9,18 @@ export default function LogOut() {
   const navigate = useNavigate()
   const [userInfo, isLoggedIn, logout] = useUserInfo()
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (!isLoggedIn) {
       console.log('로그아웃 실패: 로그인 상태가 아닙니다.')
       return
     }
 
-    logout()
-    console.log('로그아웃 성공')
+    const isLoggedOut = await logout()
+    if (isLoggedOut) {
+      console.log('로그아웃 성공')
+    } else {
+      console.log('로그아웃 실패')
+    }
     navigate('/')
   }
 

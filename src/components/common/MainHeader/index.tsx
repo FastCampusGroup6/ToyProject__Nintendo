@@ -7,7 +7,7 @@ import useUserInfo from '@/hooks/useUserInfo'
 export default function MainHeader() {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
-  const [userInfo, isLoggedIn, logout] = useUserInfo()
+  const [_, isLoggedIn] = useUserInfo()
 
   function handleSearchBtn() {
     setIsOpen(!isOpen)
@@ -15,6 +15,9 @@ export default function MainHeader() {
   function navigateSearchPage(searchText: string) {
     navigate(`/search?search=${searchText}`)
     setIsOpen(false)
+  }
+  function navigateLogoutPage() {
+    navigate(`/access/logout`)
   }
 
   return (
@@ -46,7 +49,7 @@ export default function MainHeader() {
           )}
           <li className={styles.login}>
             {isLoggedIn ? (
-              <div className={styles.item} onClick={logout}>
+              <div className={styles.item} onClick={navigateLogoutPage}>
                 <img src="/images/home/hardware.svg" alt="hardware icon" />
                 <p>로그 아웃</p>
               </div>
