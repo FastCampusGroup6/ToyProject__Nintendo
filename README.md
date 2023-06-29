@@ -1,46 +1,287 @@
-# Getting Started with Create React App
+# SumTendo 게임판매 웹서비스
++ Sumtendo 는 닌텐도 게임을 판매하는 웹서비스 입니다.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+### Stack
 
-In the project directory, you can run:
+### 
 
-### `npm start`
+## Environment
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Files
+```
+📦ToyProject__Nintendo
+ ┣ 📂.vscode
+ ┃ ┣ 📜javascript.code-snippets
+ ┃ ┗ 📜settings.json
+ ┣ 📂src
+ ┃ ┣ 📂apis
+ ┃ ┃ ┣ 📂access
+ ┃ ┃ ┃ ┣ 📂signIn
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┃ ┣ 📂signOut
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┃ ┗ 📂signUp
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂detail
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┃ ┣ 📂access
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┃ ┣ 📂account
+ ┃ ┃ ┃ ┃ ┣ 📜index.ts
+ ┃ ┃ ┃ ┃ ┗ 📜memo.md
+ ┃ ┃ ┃ ┗ 📂product
+ ┃ ┃ ┃ ┃ ┣ 📜index.ts
+ ┃ ┃ ┃ ┃ ┗ 📜memo.md
+ ┃ ┃ ┣ 📂search
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┣ 📂editedUserInfo
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┃ ┗ 📂userList
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂access
+ ┃ ┃ ┃ ┗ 📂validate
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┣ 📂Footer
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂HeaderSearchBar
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂MainHeader
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂UserHeader
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📜Bank.module.scss
+ ┃ ┃ ┃ ┣ 📜Bank.tsx
+ ┃ ┃ ┃ ┣ 📜BankBtn.module.scss
+ ┃ ┃ ┃ ┣ 📜BankBtn.tsx
+ ┃ ┃ ┃ ┣ 📜Modal.module.scss
+ ┃ ┃ ┃ ┗ 📜Modal.tsx
+ ┃ ┃ ┣ 📂detail
+ ┃ ┃ ┃ ┣ 📂Infomation
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂MediaContainer
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┗ 📂Notice
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂home
+ ┃ ┃ ┃ ┣ 📂ConnectAccountBanner
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂HomeSwiper
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜index.tsx
+ ┃ ┃ ┃ ┃ ┗ 📜swiper.css
+ ┃ ┃ ┃ ┣ 📂News
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂OnlineStore
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┗ 📂Softwares
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂mypage
+ ┃ ┃ ┃ ┣ 📂bank
+ ┃ ┃ ┃ ┃ ┣ 📜BankSelect.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜BankSelect.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜ConnectedAccount.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜ConnectedAccount.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜ConnectedBank.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜ConnectedBank.tsx
+ ┃ ┃ ┃ ┣ 📂nav
+ ┃ ┃ ┃ ┃ ┣ 📜Nav.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜Nav.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜SideBar.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜SideBar.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜SideBarItem.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜SideBarItem.tsx
+ ┃ ┃ ┃ ┗ 📂productList
+ ┃ ┃ ┃ ┃ ┣ 📜GetItem.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜GetItem.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜GetItemMore.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜GetItemMore.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜GetList.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜GetList.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜JjimItem.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜JjimItem.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜JjimItemMore.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜JjimItemMore.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜JjimList.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜JjimList.tsx
+ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┃ ┣ 📂payMethod
+ ┃ ┃ ┃ ┃ ┣ 📜BankConnect.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜BankConnect.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜ConnectedBank.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜ConnectedBank.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜PossibleBank.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜PossibleBank.tsx
+ ┃ ┃ ┃ ┣ 📜Btn.module.scss
+ ┃ ┃ ┃ ┣ 📜Btn.tsx
+ ┃ ┃ ┃ ┣ 📜CartItem.module.scss
+ ┃ ┃ ┃ ┣ 📜CartItem.tsx
+ ┃ ┃ ┃ ┣ 📜Loading.module.scss
+ ┃ ┃ ┃ ┣ 📜Loading.tsx
+ ┃ ┃ ┃ ┣ 📜PayProcessFlow.module.scss
+ ┃ ┃ ┃ ┣ 📜PayProcessFlow.tsx
+ ┃ ┃ ┃ ┣ 📜ShoppingCart.module.scss
+ ┃ ┃ ┃ ┗ 📜ShoppingCart.tsx
+ ┃ ┃ ┗ 📂search
+ ┃ ┃ ┃ ┣ 📂Banner
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂Filter
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂Genre
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂Product
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂ProductList
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂Search
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂SearchBar
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┗ 📂SearchSwiper
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┣ 📜index.tsx
+ ┃ ┃ ┃ ┃ ┗ 📜swiper.css
+ ┃ ┣ 📂constants
+ ┃ ┃ ┣ 📂home
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┗ 📂search
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂hooks
+ ┃ ┃ ┣ 📜useCartItems.ts
+ ┃ ┃ ┗ 📜useUserInfo.ts
+ ┃ ┣ 📂layouts
+ ┃ ┃ ┣ 📜AccessLayout.module.scss
+ ┃ ┃ ┣ 📜AccessLayout.tsx
+ ┃ ┃ ┣ 📜MainLayout.tsx
+ ┃ ┃ ┣ 📜MypageLayout.module.scss
+ ┃ ┃ ┣ 📜MypageLayout.tsx
+ ┃ ┃ ┣ 📜PaymentLayout.module.scss
+ ┃ ┃ ┗ 📜PaymentLayout.tsx
+ ┃ ┣ 📂pages
+ ┃ ┃ ┣ 📂access
+ ┃ ┃ ┃ ┣ 📂ageSignUp
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂logIn
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂logOut
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂passwordChangeForm
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂passwordCheck
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂signUpForm
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂detail
+ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂home
+ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂mypage
+ ┃ ┃ ┃ ┣ 📂account
+ ┃ ┃ ┃ ┃ ┣ 📂addAccount
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂certProfile
+ ┃ ┃ ┃ ┃ ┣ 📂editProfile
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂getItemAll
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┃ ┣ 📂agreement
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂checkInfo
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂orderComplete
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📂payMethod
+ ┃ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┃ ┗ 📂search
+ ┃ ┃ ┃ ┣ 📜index.module.scss
+ ┃ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┣ 📂recoil
+ ┃ ┃ ┣ 📂common
+ ┃ ┃ ┃ ┗ 📜userState.ts
+ ┃ ┃ ┣ 📂detail
+ ┃ ┃ ┃ ┗ 📜productState.ts
+ ┃ ┃ ┗ 📂search
+ ┃ ┃ ┃ ┣ 📜productState.ts
+ ┃ ┃ ┃ ┗ 📜queryStringState.ts
+ ┃ ┣ 📂types
+ ┃ ┃ ┣ 📜account.ts
+ ┃ ┃ ┣ 📜auth.ts
+ ┃ ┃ ┣ 📜product.ts
+ ┃ ┃ ┣ 📜user.ts
+ ┃ ┃ ┗ 📜usercart.ts
+ ┃ ┣ 📂utils
+ ┃ ┃ ┣ 📜constants.ts
+ ┃ ┃ ┣ 📜getBankLogo.ts
+ ┃ ┃ ┗ 📜search.ts
+ ┃ ┣ 📜App.scss
+ ┃ ┣ 📜App.tsx
+ ┃ ┣ 📜custom.d.ts
+ ┃ ┣ 📜index.scss
+ ┃ ┣ 📜index.tsx
+ ┃ ┗ 📜_variables.scss
+ ┣ 📜.eslintrc.json
+ ┣ 📜.gitignore
+ ┣ 📜.prettierignore
+ ┣ 📜.prettierrc
+ ┣ 📜Convention.md
+ ┣ 📜craco.config.js
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜README.md
+ ┣ 📜SETUP_GUIDE.md
+ ┗ 📜tsconfig.json
+```
