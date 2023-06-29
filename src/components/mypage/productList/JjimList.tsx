@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import styles from './JjimList.module.scss'
 import JjimItem from '@/components/mypage/productList/JjimItem'
-import dummyGoods1 from '@/pages/payment/dummyGoods1.json'
-import dummyGoods2 from '@/pages/payment/dummyGoods2.json'
+// import dummyGoods1 from '@/pages/payment/dummyGoods1.json'
+// import dummyGoods2 from '@/pages/payment/dummyGoods2.json'
 import { Products, Product } from '@/types/product'
 
-
-export default function JjimList( ) {
+export default function JjimList() {
   const [jjimItem, setJjimItem] = useState<Products>([])
 
   // const currentLocation = useLocation()
@@ -16,8 +15,8 @@ export default function JjimList( ) {
     if (storedJjimItems) {
       setJjimItem(JSON.parse(storedJjimItems))
     } else {
-      localStorage.setItem('jjimItem', JSON.stringify([dummyGoods1, dummyGoods2]))
-      setJjimItem([dummyGoods1, dummyGoods2])
+      // localStorage.setItem('jjimItem', JSON.stringify([dummyGoods1, dummyGoods2]))
+      // setJjimItem([dummyGoods1, dummyGoods2])
     }
   }, [])
 
