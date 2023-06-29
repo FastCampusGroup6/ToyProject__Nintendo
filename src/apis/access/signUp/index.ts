@@ -9,7 +9,5 @@ export async function signUp(query: SignUpRequest): Promise<SignUpResponse> {
   })
   const accessToken = response.data.accessToken
   localStorage.setItem('token', accessToken)
-
-  console.log('회원가입 성공')
   return response.data
 }

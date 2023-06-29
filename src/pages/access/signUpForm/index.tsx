@@ -19,7 +19,6 @@ export default function SignUpForm() {
 
   //체크박스 눌러야 화원가입버튼 활성화
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('체크박스 확인')
     const value = e.target.checked
     setIsChecked(value)
   }

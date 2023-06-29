@@ -11,16 +11,11 @@ export default function LogOut() {
 
   const handleLogout = async () => {
     if (!isLoggedIn) {
-      console.log('로그아웃 실패: 로그인 상태가 아닙니다.')
       return
     }
 
-    const isLoggedOut = await logout()
-    if (isLoggedOut) {
-      console.log('로그아웃 성공')
-    } else {
-      console.log('로그아웃 실패')
-    }
+    await logout()
+
     navigate('/')
   }
 

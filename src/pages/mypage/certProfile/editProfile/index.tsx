@@ -85,7 +85,6 @@ export default function EditProfile() {
       setDisplayNameCheckedMsg('.')
     } else {
       setDisabled(false)
-      console.log('닉네임 양식 :', '통과')
       setDisplayNameCheckedMsg('닉네임 입력 확인')
     }
 
@@ -95,8 +94,8 @@ export default function EditProfile() {
   // 중복 닉네임 체크
   const onIsDisplayNameDuplicate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    if (displayNameCheckedMsg === '닉네임 입력 확인') {
-      const isDuplicate = await checkDuplicateDisplayName(curUser.displayName)
+    if (displayNameCheckedMsg === '닉네임 입력 확인' && nicknameInputValue) {
+      const isDuplicate = await checkDuplicateDisplayName(nicknameInputValue)
       // 중복체크 메세지
       if (isDuplicate) {
         alert('이미 사용 중인 닉네임입니다.')
@@ -140,7 +139,6 @@ export default function EditProfile() {
   const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     // 기본 비번호 입력 확인
     if (!passwordRegex.test(originalPassword ? originalPassword : '')) {
-      console.log('입력 불가 처리하기')
       return
     }
     setNewPasswordInputValue(e.target.value)

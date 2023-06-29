@@ -143,14 +143,11 @@ export default function PayMethod() {
   const handleSelectedBankOrder = async () => {
     // api 거래 신청 요청.
     try {
-      console.log(activeIndex)
       setIsLoading(true)
       const buyPromises = cartItems.map((item) => {
         postBuyProduct(accessToken, {
           productId: item.id,
           accountId: connectedAccounts.accounts[activeIndex].id
-        }).then((res) => {
-          console.log(res)
         })
       })
       await Promise.all(buyPromises).then(() => {
