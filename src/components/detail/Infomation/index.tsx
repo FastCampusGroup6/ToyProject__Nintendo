@@ -23,7 +23,7 @@ export default function Infomation({ product }: Props) {
   async function buyProduct() {
     if (!isLoggedIn) {
       alert('로그인이 필요합니다.')
-      navigate('/login')
+      navigate('/access')
       return
     }
 

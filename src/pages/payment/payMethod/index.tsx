@@ -23,7 +23,7 @@ export default function PayMethod() {
   const [possibleAccounts, setPossibleAccounts] = useState<Banks>([])
   const [isOpen, setIsOpen] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number>(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [nextModal, setNextModal] = useState(false)
   const [bankIndex, setBankIndex] = useState(0)
@@ -63,7 +63,7 @@ export default function PayMethod() {
   const handleAccountsOpen = async () => {
     setIsOpen(!isOpen)
     setIsClicked(false)
-    setActiveIndex(null)
+    setActiveIndex(NaN)
     //1. 게좌 조회 버튼을 처음 눌렀을 때만 getSelectableAAccounts fetch
     //2. 이후 클릭해서 해당 창이 열렸을 때는, connectedAccounts에 저장된 값을 불러오기.
     if (connectedAccounts.accounts.length === 0) {
@@ -143,17 +143,19 @@ export default function PayMethod() {
   const handleSelectedBankOrder = async () => {
     // api 거래 신청 요청.
     try {
+      console.log(activeIndex)
       setIsLoading(true)
       const buyPromises = cartItems.map((item) => {
-        if (activeIndex) {
-          postBuyProduct(accessToken, {
-            productId: item.id,
-            accountId: connectedAccounts.accounts[activeIndex].id
-          })
-        }
+        postBuyProduct(accessToken, {
+          productId: item.id,
+          accountId: connectedAccounts.accounts[activeIndex].id
+        }).then((res) => {
+          console.log(res)
+        })
       })
-      await Promise.all(buyPromises)
-      alert('결제 완료되었습니다! 결제 완료 페이지로 이동합니다.')
+      await Promise.all(buyPromises).then(() => {
+        alert('결제 완료되었습니다! 결제 완료 페이지로 이동합니다.')
+      })
       setIsLoading(false)
       navigate(`/payment/${userInfo.displayName}/orderComplete`)
     } catch (error) {

@@ -30,11 +30,17 @@ export default function OrderComplete() {
     try {
       setIsLoading(true)
       const transactionDetails: UserTransactionDetails = await getTransactionDetails(accessToken)
-
       // 장바구니에 있는 제품과 비교하여 매칭된 거래 내역 필터링
-      const matchedDetails = transactionDetails.filter((detail) =>
-        cartItems.some((item) => item.id === detail.product.productId)
-      )
+      const matchedDetails: UserTransactionDetails = []
+      // const matchedDetails = transactionDetails.filter((detail) =>
+      //   cartItems.some((item) => item.id === detail.product.productId)
+      // )
+      cartItems.forEach((item) => {
+        const matchingDetail = transactionDetails.filter((detail) => item.id === detail.product.productId).shift()
+        if (matchingDetail) {
+          matchedDetails.push(matchingDetail)
+        }
+      })
       setTransactionDetails(matchedDetails)
       setIsLoading(false)
     } catch (error) {
