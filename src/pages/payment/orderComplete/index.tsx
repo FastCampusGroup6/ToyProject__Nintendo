@@ -26,7 +26,7 @@ export default function OrderComplete() {
   }, [userInfo])
 
   const matchedTransactionDetails = async (): Promise<void> => {
-    // 제품 전체 거래(구매) 내역 API 호출 또는 dummy 데이터 사용
+    // 제품 전체 거래(구매) 내역 API 호출
     try {
       setIsLoading(true)
       const transactionDetails: UserTransactionDetails = await getTransactionDetails(accessToken)
