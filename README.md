@@ -4,9 +4,9 @@
 ## Description
 
 ### Stack
-
+React
+typescript
 ### Feature
-
 #### Main
 
 #### Access
@@ -16,7 +16,16 @@
 #### Payment
 
 ## Environment
+CRA
+Craco
+SASS
 
+## Library
+axios
+swiper
+uuid
+recoil
+loadable
 
 ## Files
 ```
